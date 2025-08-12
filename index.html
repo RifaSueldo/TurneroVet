@@ -730,6 +730,25 @@ section.visible {
   margin: 0 auto 15px auto; /* Centrada y con margen abajo */
   max-width: 250px; /* o el tamaño que prefieras */
 }
+
+    .whatsapp-vertical {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: right center;
+  background-color: #25D366;
+  color: white;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  padding: 5px 10px;
+  border-radius: 5px 5px 0 0;
+  text-decoration: none;
+  z-index: 9999;
+}
+.whatsapp-vertical:hover {
+  background-color: #1ebe5d;
+}
   </style>
 
 </head>
@@ -746,6 +765,12 @@ section.visible {
   </div>
   
 </header>
+  <!-- Botón lateral de WhatsApp -->
+<a href="https://wa.me/543435020970" 
+   class="whatsapp-vertical" 
+   target="_blank">
+   TurnoVet
+</a>
   <!-- Loader -->
 <div id="loaderOverlay">
   <div class="loader"></div>
