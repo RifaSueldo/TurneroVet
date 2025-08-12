@@ -1367,45 +1367,46 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
  <script>
-  document.getElementById("btnMostrarIds").addEventListener("click", () => {
-    fetch(urlScript + "?accion=mostrarIdsUnicos")
-      .then(res => res.json())
-      .then(data => {
-        if (data.success && data.resultados.length > 0) {
-          // Crear un mapa para IDs únicos
-          const idsUnicos = new Map();
+function mostrarIdsUnicos() {
+  fetch(urlScript + "?buscar=todos")
+    .then(res => res.json())
+    .then(data => {
+      if (data.success && data.resultados.length > 0) {
+        const idsUnicos = new Map();
+        data.resultados.forEach(item => {
+          if (!idsUnicos.has(item.dniMascota)) {
+            idsUnicos.set(item.dniMascota, item);
+          }
+        });
 
-          data.resultados.forEach(item => {
-            if (!idsUnicos.has(item.dniMascota)) {
-              idsUnicos.set(item.dniMascota, item);
-            }
-          });
+        let html = "<h3>IDs únicos con datos</h3>";
+        idsUnicos.forEach((item, id) => {
+          html += `
+            <div class="id-registro" style="border-bottom:1px solid #ccc; padding:5px;">
+              <p><b>ID Mascota:</b> ${id}</p>
+              <p><b>Nombre:</b> ${item.nombre}</p>
+              <p><b>Nombre Mascota:</b> ${item.nombreMascota}</p>
+              <p><b>Email:</b> ${item.email || "-"}</p>
+              <p><b>Teléfono:</b> ${item.telefono || "-"}</p>
+              <p><b>Tipo:</b> ${item.tipoMascota || "-"}</p>
+            </div>
+          `;
+        });
 
-          let html = "<h3>IDs únicos con datos</h3>";
-          idsUnicos.forEach((item, id) => {
-            html += `
-              <div class="id-registro">
-                <p><b>ID Mascota:</b> ${id}</p>
-                <p><b>Nombre:</b> ${item.nombre}</p>
-                <p><b>Nombre Mascota:</b> ${item.nombreMascota}</p>
-                <p><b>Email:</b> ${item.email || "-"}</p>
-                <p><b>Teléfono:</b> ${item.telefono || "-"}</p>
-                <p><b>Tipo:</b> ${item.tipo || "-"}</p>
-                <hr>
-              </div>
-            `;
-          });
+        document.getElementById("resultadoIds").innerHTML = html;
+      } else {
+        document.getElementById("resultadoIds").innerHTML = "<p>No hay registros.</p>";
+      }
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      alert("Error al obtener los IDs.");
+    });
+}
 
-          document.getElementById("resultadoIds").innerHTML = html;
-        } else {
-          document.getElementById("resultadoIds").innerHTML = "<p>No hay registros.</p>";
-        }
-      })
-      .catch(err => {
-        console.error("Error:", err);
-        alert("Error al obtener los IDs.");
-      });
-  });
+// Asociar a un botón:
+document.getElementById("btnMostrarIds").addEventListener("click", mostrarIdsUnicos);
+
 </script> 
 </body>
     
