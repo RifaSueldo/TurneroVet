@@ -644,8 +644,18 @@ body.logueado #navbarMenu {
   </div>
 </div>
    
-<button id="btnMostrarIds">Lista completa</button>
+<div style="text-align:center; margin: 20px 0;">
+  <button id="btnMostrarIds" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+    Desplegar lista completa
+  </button>
+</div>
+
+<div id="cargando" style="text-align: center; display: none;">
+  <i class="fas fa-spinner fa-spin"></i> Cargando, por favor esperá...
+</div>
+
 <div id="resultadoIds"></div>
+
 
    
 <!-- MODAL NUEVO CAMPO -->
@@ -1371,9 +1381,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
  <script>
 function mostrarIdsUnicos() {
+  const resultadoDiv = document.getElementById("resultadoIds");
+  const cargando = document.getElementById("cargando");
+
+  resultadoDiv.innerHTML = "";
+  cargando.style.display = "block";
+
   fetch(urlScript + "?buscar=todos")
     .then(res => res.json())
     .then(data => {
+      cargando.style.display = "none";
+
       if (data.success && data.resultados.length > 0) {
         const idsUnicos = new Map();
         data.resultados.forEach(item => {
@@ -1385,7 +1403,7 @@ function mostrarIdsUnicos() {
         let html = "<h3>IDs únicos con datos</h3>";
         idsUnicos.forEach((item, id) => {
           html += `
-            <div class="id-registro" style="border-bottom:1px solid #ccc; padding:5px;">
+            <div class="id-registro" style="border-bottom:1px solid #ccc; padding:5px; margin-bottom:8px;">
               <p><b>ID Mascota:</b> ${id}</p>
               <p><b>Nombre:</b> ${item.nombre}</p>
               <p><b>Nombre Mascota:</b> ${item.nombreMascota}</p>
@@ -1396,18 +1414,18 @@ function mostrarIdsUnicos() {
           `;
         });
 
-        document.getElementById("resultadoIds").innerHTML = html;
+        resultadoDiv.innerHTML = html;
       } else {
-        document.getElementById("resultadoIds").innerHTML = "<p>No hay registros.</p>";
+        resultadoDiv.innerHTML = "<p style='color:#C42685;'>No hay registros.</p>";
       }
     })
     .catch(err => {
+      cargando.style.display = "none";
       console.error("Error:", err);
       alert("Error al obtener los IDs.");
     });
 }
 
-// Asociar a un botón:
 document.getElementById("btnMostrarIds").addEventListener("click", mostrarIdsUnicos);
 
 </script> 
