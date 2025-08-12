@@ -582,7 +582,8 @@ body.logueado #navbarMenu {
   </div>
 </div>
 
-
+<button id="btnMostrarIds">Mostrar IDs únicos</button>
+<div id="resultadoIds"></div>
 
 <div id="appDiv" style="text-align: center; display:none;">
   <!-- APP PRINCIPAL -->
@@ -1365,7 +1366,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 
-  
+ <script>
+  document.getElementById("btnMostrarIds").addEventListener("click", () => {
+    fetch(urlScript + "?accion=mostrarIdsUnicos")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.resultados.length > 0) {
+          // Crear un mapa para IDs únicos
+          const idsUnicos = new Map();
+
+          data.resultados.forEach(item => {
+            if (!idsUnicos.has(item.dniMascota)) {
+              idsUnicos.set(item.dniMascota, item);
+            }
+          });
+
+          let html = "<h3>IDs únicos con datos</h3>";
+          idsUnicos.forEach((item, id) => {
+            html += `
+              <div class="id-registro">
+                <p><b>ID Mascota:</b> ${id}</p>
+                <p><b>Nombre:</b> ${item.nombre}</p>
+                <p><b>Nombre Mascota:</b> ${item.nombreMascota}</p>
+                <p><b>Email:</b> ${item.email || "-"}</p>
+                <p><b>Teléfono:</b> ${item.telefono || "-"}</p>
+                <p><b>Tipo:</b> ${item.tipo || "-"}</p>
+                <hr>
+              </div>
+            `;
+          });
+
+          document.getElementById("resultadoIds").innerHTML = html;
+        } else {
+          document.getElementById("resultadoIds").innerHTML = "<p>No hay registros.</p>";
+        }
+      })
+      .catch(err => {
+        console.error("Error:", err);
+        alert("Error al obtener los IDs.");
+      });
+  });
+</script> 
 </body>
     
 </html>
