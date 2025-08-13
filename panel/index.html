@@ -99,7 +99,7 @@ html {
 
     #loginDiv h2 {
       margin-bottom: 15px;
-      color: #C42685;
+      color: #533482;
       font-size: 20px;
     }
 
@@ -120,13 +120,13 @@ html {
     }
 
     #loginDiv input:focus {
-      border-color: #C42685;
+      border-color: #533482;
       outline: none;
     }
 
     #loginDiv button {
       width: 100%;
-      background: #C42685;
+      background: #533482;
       color: #fff;
       border: none;
       padding: 12px;
@@ -162,12 +162,12 @@ html {
     }
 
     input:focus, textarea:focus, select:focus {
-      border-color: #C42685;
+      border-color:#533482;
       outline: none;
     }
 
     button {
-      background: #C42685;
+      background: #533482;
       color: white;
       border: none;
       padding: 8px 14px;
@@ -307,7 +307,7 @@ html {
  
     .btn-redireccion {
   display: inline-block;
-  background-color: #C42685;
+  background-color: #533482;
   color: white;
   padding: 8px 15px;
   border-radius: 5px;
@@ -321,7 +321,7 @@ html {
 }
 
   .mensaje-bienvenida {
-  background-color: #362A6F;  
+  background-color: #533482;  
   color: white;
   font-weight: 600;
   padding: 12px 20px;
@@ -396,7 +396,7 @@ html {
   transition: background-color 0.2s ease;
 }
 .navbar-menu .nav-link:hover {
-  background-color: #C42685;
+  background-color: #533482;
 }
 
 /* Botón hamburguesa - oculto por defecto */
@@ -805,7 +805,7 @@ function fechaVacunaToString(fechaStr) {
         const esBusquedaGeneral = parametro.startsWith("?buscar=");
         mostrarResultados(data.resultados, titulo, esBusquedaGeneral);
       } else {
-        resultadoDiv.innerHTML = "<p style='color:#C42685;'>No se encontraron datos.</p>";
+        resultadoDiv.innerHTML = "<p style='color:#533482;'>No se encontraron datos.</p>";
       }
     })
     .catch(() => {
@@ -1107,7 +1107,7 @@ let html = `<h3>Turnos para el día ${fechaFormateada}</h3>`;
 
         resultadoFecha.innerHTML = html;
       } else {
-        resultadoFecha.innerHTML = `<p style="color:#C42685;">No hay turnos para este día</p>`;
+        resultadoFecha.innerHTML = `<p style="color:#533482;">No hay turnos para este día</p>`;
       }
     })
     .catch(err => {
@@ -1429,7 +1429,7 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
 
         resultadoIds.innerHTML = html;
       } else {
-        resultadoIds.innerHTML = "<p style='color:#C42685;'>No se encontraron datos.</p>";
+        resultadoIds.innerHTML = "<p style='color:#533482;'>No se encontraron datos.</p>";
       }
     })
     .catch(() => {
