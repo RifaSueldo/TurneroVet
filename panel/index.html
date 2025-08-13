@@ -1096,13 +1096,21 @@ let html = `<h3>Turnos para el día ${fechaFormateada}</h3>`;
             <div class="resultado ${i % 2 === 0 ? "" : "alternado"}">
               <label>Hora:</label>
               <input type="text" value="${formatearHora(turno.turno)}" disabled />
-              <label>Nombre Humano:</label>
+              <label>Nombre Comercio:</label>
               <input type="text" value="${turno.nombre}" disabled />
-              <label>Nombre Mascota:</label>
+              <label>Nombre y Apellido:</label>
               <input type="text" value="${turno.nombreMascota}" disabled />
-              <label>ID Mascota:</label>
+              <label>Dirección:</label>
+              <input type="text" value="${turno.tipoMascota}" disabled />
+              <label>Email:</label>
+              <input type="text" value="${turno.email}" disabled />
+               <label>Teléfono:</label>
+              <input type="text" value="${turno.telefono}" disabled />
+              <label>Comentario:</label>
+              <input type="text" value="${turno.comentario}" disabled />
+              <label>Dirección:</label>
               <input type="text" value="${turno.dniMascota}" disabled />
-            </div>`;
+            </div>`; 
         });
 
         resultadoFecha.innerHTML = html;
@@ -1416,13 +1424,13 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
         Object.values(idsUnicos).forEach(item => {
           html += `<div style="border:1px solid #ddd; padding:10px; margin-bottom:8px; text-align:left;">
             <b>ID:</b> ${item.dniMascota} <br>
-            <b>Nombre:</b> ${item.nombre} <br>
-            <b>Nombre Mascota:</b> ${item.nombreMascota} <br>
-            <b>Tipo:</b> ${item.tipoMascota} <br>
+            <b>Nombre Comercio:</b> ${item.nombre} <br>
+            <b>Nombre y Apellido:</b> ${item.nombreMascota} <br>
+            <b>Dirección:</b> ${item.tipoMascota} <br>
             <b>Email:</b> ${item.email} <br>
             <b>Teléfono:</b> ${item.telefono} <br>
             <b>Comentario:</b> ${item.comentario || '-'} <br>
-            <b>Próxima vacuna:</b> ${item.proxima_vacuna || '-'} <br>
+            
             <!-- Agregá más campos si querés -->
           </div>`;
         });
