@@ -358,7 +358,13 @@ section.visible {
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   backdrop-filter: blur(6px);
 }
-
+navbar-logo p {
+  
+  opacity: 0;
+  transform: translateX(100px);
+  animation: slideInRight 1.2s cubic-bezier(0.25, 1, 0.5, 0.2) forwards,
+             saltitoSutil 6s ease-in-out 1.2s infinite; /* ciclo total de 6s */
+}
 .navbar-logo img {
   width: 90px;
   opacity: 0;
