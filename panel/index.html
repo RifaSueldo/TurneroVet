@@ -612,7 +612,7 @@ body.logueado #navbarMenu {
      <p style="font-size: 14px; text-align: center;">1 crédito = 1 Turno = $170 AR</p>
   </div>
 </div>
-   <!-- BUSQUEDA GENERAL -->
+   <!-- BUSQUEDA GENERAL 
 <div class="busqueda-container">   
   <p style="font-size: 14px; text-align: center;">
     Para acceder a la Ficha Médica necesitas el ID, si no lo tenés, buscá por Nombre primero.
@@ -634,7 +634,7 @@ body.logueado #navbarMenu {
   <i class="fas fa-spinner fa-spin"></i> Cargando, por favor esperá...
 </div>
 
-<div id="resultadoGeneral"></div>
+<div id="resultadoGeneral"></div>-->
 
     <!-- NUEVO: BUSCADOR POR FECHA -->
     <section id="turnos">
@@ -826,13 +826,13 @@ function fechaVacunaToString(fechaStr) {
       // Solo campos básicos para búsqueda general
       html += `
         <div class="resultado ${claseFondo}" id="registro-${index}">
-          <label>Nombre Humano:</label>
+          <label>Nombre Comercio:</label>
           <input type="text" value="${r.nombre}" disabled>
 
-          <label>Nombre Mascota:</label>
+          <label>Nombre y Apellido:</label>
           <input type="text" value="${r.nombreMascota}" disabled>
 
-          <label>ID Mascota:</label>
+          <label>ID Cliente:</label>
           <input type="text" value="${r.dniMascota}" disabled>
         </div>
       `;
