@@ -813,7 +813,7 @@ section.visible {
 
 <div class="formulario" id="formularioReserva" style="display:none;">
   <h3>Reservar turno</h3>
-  <!--<input type="text" id="nombre" placeholder="Nombre Comercio" required /> -->
+  <input type="text" id="nombre" placeholder="Nombre Comercio" required />
   <input type="text" id="nombreMascota" placeholder="Nombre y Apellido" required />
   <input type="text" id="tipoMascota" placeholder="Dirección" required />
   <input type="email" id="email" placeholder="Tu correo" required />
@@ -827,7 +827,7 @@ section.visible {
    
   <img id="logoTicket" src="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" alt="Logo" style="max-width: 150px; display: block; margin: 0 auto 15px;">
   <h3 style="Font-size: 24px;">Reservaste turno</h3>
-  <!--<p><strong>Nombre Comercio:</strong> <span id="tNombre"></span></p> -->
+  <p><strong>Nombre Comercio:</strong> <span id="tNombre"></span></p>
   <p><strong>Nombre y Apellido:</strong> <span id="tNombreMascota"></span></p>
   <p><strong>Dirección:</strong> <span id="tTipoMascota"></span></p>
   <p><strong>Email:</strong> <span id="tEmail"></span></p>
@@ -889,12 +889,12 @@ section.visible {
   let turnosOcupados = [];
 
   const turnosPorDia = {
-    "lunes": ["9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"],
-    "martes": ["9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"],
-    "miércoles": ["9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"],
-    "jueves": ["9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"],
-    "viernes": ["9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30","16:30", "17:00", "17:30"],
-    "sábado": ["9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30"],
+    "lunes": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"],
+    "martes": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"],
+    "miércoles": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"],
+    "jueves": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"],
+    "viernes": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30","16:30", "17:00", "17:30"],
+    "sábado": ["09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30"],
     "domingo": [] // Sin turnos
   };
 
