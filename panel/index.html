@@ -1286,26 +1286,31 @@ function fechaVacunaToString(fechaStr) {
         let html = `<h3>Turnos para el día ${fechaFormateada}</h3>`;
 
         data.resultados.forEach((turno, i) => {
-          html += `
-            <div class="resultado ${i % 2 === 0 ? "" : "alternado"}">
-              <label>Hora:</label>
-              <input type="text" value="${formatearHora(turno.turno)}" disabled />
-              <label>Nombre Comercio:</label>
-              <input type="text" value="${turno.nombre}" disabled />
-              <label>Nombre y Apellido:</label>
-              <input type="text" value="${turno.nombreMascota}" disabled />
-              <label>Dirección:</label>
-              <input type="text" value="${turno.tipoMascota}" disabled />
-              <label>Email:</label>
-              <input type="text" value="${turno.email}" disabled />
-              <label>Teléfono:</label>
-              <input type="text" value="${turno.telefono}" disabled />
-              <label>Comentario:</label>
-              <input type="text" value="${turno.comentario}" disabled />
-              <label>ID Cliente:</label>
-              <input type="text" value="${turno.dniMascota}" disabled />
-            </div>`; 
-        });
+  html += `
+    <div class="resultado ${i % 2 === 0 ? '' : 'alternado'}">
+        <div class="badge-hora">${formatearHora(turno.turno)}</div>
+        <label><i class="fas fa-store"></i> Comercio</label>
+        <input type="text" value="${turno.nombre}" disabled />
+        
+        <label><i class="fas fa-user"></i> Nombre</label>
+        <input type="text" value="${turno.nombreMascota}" disabled />
+        
+        <label><i class="fas fa-map-marker-alt"></i> Dirección</label>
+        <input type="text" value="${turno.tipoMascota}" disabled />
+        
+        <label><i class="fas fa-envelope"></i> Email</label>
+        <input type="text" value="${turno.email}" disabled />
+        
+        <label><i class="fas fa-phone"></i> Teléfono</label>
+        <input type="text" value="${turno.telefono}" disabled />
+        
+        <label><i class="fas fa-comment"></i> Comentario</label>
+        <input type="text" value="${turno.comentario}" disabled />
+        
+        <label><i class="fas fa-id-badge"></i> ID Cliente</label>
+        <input type="text" value="${turno.dniMascota}" disabled />
+    </div>`;
+});
 
         resultadoFecha.innerHTML = html;
       } else {
