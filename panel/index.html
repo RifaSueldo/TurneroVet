@@ -554,55 +554,81 @@ input[type="date"]:focus {
 }
 
 /* Header del calendario */
-.flatpickr-day.selected {
-  background-color: #533482 !important;
-}
-.span.flatpickr-weekday {
-   
-    background-color: #533482 !important;
-    
-}
-     span.flatpickr-weekday {
-    
-   background-color: #533482 !important;
-        color: #fff;
- 
+/* Contenedor principal del calendario */
+.flatpickr-calendar {
+    font-family: "Montserrat", sans-serif;
 }
 
-.flatpickr-weekdays {
-   background-color: #533482 !important;
-
-}
- .flatpickr-months .flatpickr-month {
-   background-color: #533482 !important;
-
-}
-
-.flatpickr-current-month .flatpickr-monthDropdown-months {
-   background-color: #533482 !important;
-
-}
-
-     .flatpickr-current-month .flatpickr-monthDropdown-months {
-   background-color: #533482 !important;
-
-}
-
-     /* Fondo del dropdown de meses */
-.flatpickr-monthDropdown-months {
+/* Header del calendario (mes y año) */
+.flatpickr-months {
     background-color: #533482 !important;
     color: #fff !important;
 }
 
-/* Opciones dentro del select de meses */
+/* Flechas de navegación */
+.flatpickr-prev-month, .flatpickr-next-month {
+    color: #fff !important;
+}
+
+/* Texto del mes y año */
+.flatpickr-current-month span.cur-month,
+.flatpickr-current-month span.cur-year {
+    color: #fff !important;
+}
+
+/* Dropdown de meses y años */
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover,
+.flatpickr-current-month .flatpickr-monthDropdown-months:focus,
+.flatpickr-current-month .flatpickr-monthDropdown-months.open {
+    background-color: #533482 !important;
+    color: #fff !important;
+}
+
+/* Opciones del dropdown */
 .flatpickr-monthDropdown-months option {
     background-color: #533482 !important;
     color: #fff !important;
 }
+
 .flatpickr-monthDropdown-months option:hover {
     background-color: #7a5bb5 !important;
     color: #fff !important;
 }
+
+/* Encabezado de días de la semana */
+.flatpickr-weekdays {
+    background-color: #533482 !important;
+}
+
+.flatpickr-weekday {
+    background-color: #533482 !important;
+    color: #fff !important;
+}
+
+/* Días del mes */
+.flatpickr-day {
+    color: #000; /* color normal de los días */
+}
+
+/* Días seleccionados y hoy */
+.flatpickr-day.selected,
+.flatpickr-day.today {
+    background-color: #533482 !important;
+    color: #fff !important;
+}
+
+/* Hover sobre los días */
+.flatpickr-day:hover {
+    background-color: #7a5bb5 !important;
+    color: #fff !important;
+}
+
+/* Deshabilitados */
+.flatpickr-day.disabled {
+    color: #999 !important;
+}
+
 
   </style>
 
