@@ -627,7 +627,7 @@ input[type="date"]:focus {
     <p>Ingresá usuario y clave para continuar:</p>
     <input type="text" id="usuario" placeholder="Usuario" />
     <input type="password" id="clave" style="text-align: center;" placeholder="Clave" />
-   <<button id="btnLogin" onclick="login()">Ingresar</button>
+   <button id="btnLogin" onclick="login()">Ingresar</button>
 
     <div id="cargandoLogin" style="text-align: center; display: none;">
     <i class="fas fa-spinner fa-spin"></i> Validando Usuario...
@@ -689,7 +689,7 @@ input[type="date"]:focus {
     <section id="turnos">
   <div id="busquedaFecha">
     <label for="fechaTurno"><strong>TURNOS:</strong></label>
-    <div id="fechaTurno" class="calendar-container"></div> <!-- Contenedor del calendario -->
+    <div id="calendarWrapper" style="display:flex; justify-content:center;"></div> <!-- Contenedor del calendario -->
 
     <div id="cargandoFecha" style="display:none; margin-top:8px; color:#666;">
       Buscando turnos...
@@ -1529,15 +1529,15 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
 
 <script>
   flatpickr("#fechaTurno", {
-    dateFormat: "Y-m-d",   // formato para enviar
-    locale: "es",
-    inline: true,           // calendario siempre visible
-    defaultDate: "today",
-    onChange: function(selectedDates, dateStr, instance) {
-      buscarPorFecha();     // buscar turnos automáticamente al elegir
-    }
-  });
-
+  dateFormat: "Y-m-d",
+  locale: "es",
+  inline: true, // calendario siempre visible
+  defaultDate: "today",
+  appendTo: document.getElementById("calendarWrapper"), // lo inserta dentro del div centrado
+  onChange: function(selectedDates, dateStr, instance) {
+    buscarPorFecha();
+  }
+});
 </script>
 </body>
     
