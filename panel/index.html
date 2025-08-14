@@ -729,41 +729,44 @@ input[type="date"]:focus {
     font-weight: 600;
    font-family: 'Montserrat', sans-serif;
 }
+/* Tooltip burbuja para créditos */
 .tooltip-burbuja {
-  position: absolute;
-  top: -50px; /* encima del botón */
-  left: 50%;
+  display: none;               /* inicialmente oculto */
+  position: absolute;          /* relativo al contenedor */
+  top: -50px;                  /* arriba del botón */
+  left: 50%;                   /* centrado horizontal */
   transform: translateX(-50%);
-  background-color: #533482;
+  background-color: #533482;   /* color morado */
   color: #fff;
-  padding: 10px 15px;
-  border-radius: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
-  white-space: nowrap;
+  text-align: center;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  z-index: 999;
-  display: none;
-  animation: bounceIn 0.6s ease;
-  display: none;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+  opacity: 0;                  /* invisible antes de animar */
 }
 
+/* Cuando se muestre */
+.tooltip-burbuja.show {
+  display: block;
+  opacity: 1;
+}
+
+/* Pequeña flecha debajo de la burbuja */
 .tooltip-burbuja::after {
-  content: '';
+  content: "";
   position: absolute;
-  bottom: -8px;
+  bottom: -6px;               /* justo debajo de la burbuja */
   left: 50%;
   transform: translateX(-50%);
-  border-width: 8px;
+  border-width: 6px;
   border-style: solid;
   border-color: #533482 transparent transparent transparent;
 }
 
-@keyframes bounceIn {
-  0% { transform: translateX(-50%) scale(0.3); opacity: 0; }
-  50% { transform: translateX(-50%) scale(1.1); opacity: 1; }
-  70% { transform: translateX(-50%) scale(0.9); }
-  100% { transform: translateX(-50%) scale(1); }
-}
 
   </style>
 
@@ -1759,22 +1762,21 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
 </script>
 
    <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const tooltip = document.getElementById("creditosTooltip");
-  const btn = document.getElementById("creditosBtn");
+const tooltip = document.getElementById("creditosTooltip");
+const btn = document.getElementById("creditosBtn");
 
-  if (!localStorage.getItem("tooltipMostrado")) {
-    setTimeout(() => {
-      tooltip.style.display = "block";
-      setTimeout(() => tooltip.style.display = "none", 5000);
-      localStorage.setItem("tooltipMostrado", "true");
-    }, 2000);
-  }
+if (!localStorage.getItem("tooltipMostrado")) {
+  setTimeout(() => {
+    tooltip.classList.add("show");
+    setTimeout(() => tooltip.classList.remove("show"), 5000); // desaparece después de 5s
+    localStorage.setItem("tooltipMostrado", "true");
+  }, 2000); // demora 2 segundos en aparecer
+}
 
-  btn.addEventListener("click", () => {
-    tooltip.style.display = "none";
-  });
+btn.addEventListener("click", () => {
+  tooltip.classList.remove("show");
 });
+
 
 </script>
 </body>
