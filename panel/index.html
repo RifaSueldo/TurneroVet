@@ -605,6 +605,62 @@ input[type="date"]:focus {
     color: #fff !important;
 }
 
+/* Contenedor de todos los turnos */
+#resultadoFecha {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centra los turnos */
+    gap: 20px; /* Espacio entre turnos */
+    margin-top: 20px;
+}
+
+/* Cada tarjeta de turno */
+.resultado {
+    background: #fff; /* Fondo blanco para destacar */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Sombra sutil */
+    padding: 15px 20px;
+    width: 300px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: Arial, sans-serif;
+}
+
+/* Hover para darle dinamismo */
+.resultado:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* Encabezado del turno */
+.resultado label {
+    font-weight: bold;
+    color: #533482; /* Morado principal */
+    margin-top: 8px;
+    display: block;
+}
+
+/* Campos de información */
+.resultado input {
+    width: 100%;
+    border: none;
+    background: #f5f5f5;
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-top: 4px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Alternar colores de tarjetas (opcional) */
+.resultado.alternado {
+    background: #f8f4ff;
+}
+
+/* Comentario más destacado */
+.resultado input[disabled][value*="comentario"] {
+    font-style: italic;
+    color: #666;
+}
 
   </style>
 
