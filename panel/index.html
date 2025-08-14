@@ -684,7 +684,7 @@ button:hover {
     <section id="turnos">
     <div id="busquedaFecha">
       <label for="fechaTurno"><strong>TURNOS:</strong></label>
-      <input type="text" id="fechaTurno" placeholder="Seleccioná una fecha" />
+      <input type="text" id="fechaTurno" />
 
       <button onclick="buscarPorFecha()"><i class="fas fa-calendar-check"></i> Buscar turnos</button>
       <div id="cargandoFecha" style="display:none; margin-top:8px; color:#666;"> Buscando turnos...</div>
@@ -1515,24 +1515,24 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
 
 
 </script> 
-   <!-- Flatpickr JS -->
+ 
+
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 
 <script>
   flatpickr("#fechaTurno", {
-    dateFormat: "Y-m-d",   // formato para enviar
-    altInput: true,        // mostrar formato amigable
+    dateFormat: "Y-m-d",   // formato para enviar al servidor
+    altInput: true,        // formato amigable visible
     altFormat: "d/m/Y",    // formato visible para el usuario
     locale: "es",          // idioma español
-    defaultDate: "today",  // fecha por defecto: hoy
+    inline: true,          // ❗ calendario siempre visible
+    defaultDate: "today",  // fecha por defecto
     onChange: function(selectedDates, dateStr, instance) {
-      // Si querés que se busque automáticamente al elegir fecha:
-      // buscarPorFecha();
+      buscarPorFecha();    // buscar automáticamente al seleccionar día
     }
   });
 </script>
-
 </body>
     
 </html>
