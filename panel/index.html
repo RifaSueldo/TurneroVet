@@ -729,7 +729,40 @@ input[type="date"]:focus {
     font-weight: 600;
    font-family: 'Montserrat', sans-serif;
 }
+.tooltip-burbuja {
+  position: absolute;
+  top: -50px; /* encima del botón */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #533482;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 999;
+  display: none;
+  animation: bounceIn 0.6s ease;
+}
 
+.tooltip-burbuja::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px;
+  border-style: solid;
+  border-color: #533482 transparent transparent transparent;
+}
+
+@keyframes bounceIn {
+  0% { transform: translateX(-50%) scale(0.3); opacity: 0; }
+  50% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+  70% { transform: translateX(-50%) scale(0.9); }
+  100% { transform: translateX(-50%) scale(1); }
+}
 
   </style>
 
@@ -787,6 +820,11 @@ input[type="date"]:focus {
 <div id="mensajeBienvenida" class="mensaje-bienvenida" style="display:none;"></div>
   <div class="container">
 <div class="creditos-container">
+   <!-- Burbuja -->
+    <div id="creditosTooltip" class="tooltip-burbuja">
+  💡 Hace clic aquí para ver los precios y agregar créditos
+</div>
+
   <!-- Botón con SVG -->
   <button id="creditosBtn" class="creditos-btn" title="Ver créditos">
     <!-- SVG aquí -->
@@ -1716,6 +1754,29 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
   });
 
   
+</script>
+
+   <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const tooltip = document.getElementById("creditosTooltip");
+  const btn = document.getElementById("creditosBtn");
+
+  // Mostrar solo la primera vez con retraso de 2s
+  if (!localStorage.getItem("tooltipMostrado")) {
+    setTimeout(() => {
+      tooltip.style.display = "block";
+      tooltip.classList.add("animar"); // activa rebote
+      setTimeout(() => tooltip.style.display = "none", 5000);
+      localStorage.setItem("tooltipMostrado", "true");
+    }, 2000);
+  }
+
+  // Si el usuario hace clic, ocultar antes
+  btn.addEventListener("click", () => {
+    tooltip.style.display = "none";
+  });
+});
+
 </script>
 </body>
     
