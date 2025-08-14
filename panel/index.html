@@ -682,14 +682,16 @@ button:hover {
 
     <!-- NUEVO: BUSCADOR POR FECHA -->
     <section id="turnos">
-    <div id="busquedaFecha">
-      
-      <input type="text" id="fechaTurno" />
+  <div id="busquedaFecha">
+    <label for="fechaTurno"><strong>TURNOS:</strong></label>
+    <!-- Input original -->
+    <input type="text" id="fechaTurno" placeholder="Seleccioná una fecha" />
 
-      
-      <div id="cargandoFecha" style="display:none; margin-top:8px; color:#666;"> Buscando turnos...</div>
-      <div id="resultadoFecha" style="margin-top: 15px;"></div>
+    <div id="cargandoFecha" style="display:none; margin-top:8px; color:#666;">
+      Buscando turnos...
     </div>
+    <div id="resultadoFecha" style="margin-top: 15px;"></div>
+  </div>
 </section>
      <section id="lista"> 
 <!-- Contenedor para botón Mostrar IDs con spinner propio -->
@@ -1522,21 +1524,21 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
 
 <script>
   flatpickr("#fechaTurno", {
-  dateFormat: "Y-m-d",
-  altInput: true,
-  altFormat: "d/m/Y",
-  locale: "es",
-  inline: true,
-  defaultDate: "today",
-  altInputClass: "form-control", // opcional: clases CSS
-  onReady: function(selectedDates, dateStr, instance) {
-    instance.altInput.setAttribute("placeholder", "Seleccioná una fecha");
-  },
-  onChange: function(selectedDates, dateStr, instance) {
-    buscarPorFecha();
-  }
-});
-
+    dateFormat: "Y-m-d",      // Formato para enviar al servidor
+    altInput: true,            // Mostrar un input amigable
+    altFormat: "d/m/Y",        // Formato visible para el usuario
+    locale: "es",
+    inline: true,              // Calendario siempre visible
+    defaultDate: "today",
+    onReady: function(selectedDates, dateStr, instance) {
+      // Seteamos el placeholder del altInput generado
+      instance.altInput.setAttribute("placeholder", "Seleccioná una fecha");
+    },
+    onChange: function(selectedDates, dateStr, instance) {
+      // Buscar turnos automáticamente al seleccionar una fecha
+      buscarPorFecha();
+    }
+  });
 </script>
 </body>
     
