@@ -738,6 +738,9 @@ function mostrarMensajeBienvenida(usuario) {
 function logout() {
   sessionStorage.removeItem("logueado");
   mostrarApp(false);
+    // Ocultar menú y botón hamburguesa
+  document.getElementById("navbarToggle").style.display = "none";
+  document.getElementById("navbarMenu").style.display = "none";
 }
 
   
