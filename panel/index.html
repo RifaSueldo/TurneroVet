@@ -10,7 +10,10 @@
   <link rel="icon" href="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" href="favicon.png">
 <!-- O para .ico -->
 <link rel="icon" href="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" href="favicon.ico">
-
+<!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-- Tema moderno -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
 <!-- Open Graph para redes sociales como Facebook, WhatsApp -->
 <meta property="og:title" content="TurnoX - Turnos On Line" />
 <meta property="og:description" content="Solicitá tu turno on line y descargalo con un ID sin cargo" />
@@ -681,7 +684,8 @@ button:hover {
     <section id="turnos">
     <div id="busquedaFecha">
       <label for="fechaTurno"><strong>TURNOS:</strong></label>
-      <input type="date" id="fechaTurno" />
+      <input type="text" id="fechaTurno" placeholder="Seleccioná una fecha" />
+
       <button onclick="buscarPorFecha()"><i class="fas fa-calendar-check"></i> Buscar turnos</button>
       <div id="cargandoFecha" style="display:none; margin-top:8px; color:#666;"> Buscando turnos...</div>
       <div id="resultadoFecha" style="margin-top: 15px;"></div>
@@ -1511,6 +1515,24 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
 
 
 </script> 
+   <!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
+<script>
+  flatpickr("#fechaTurno", {
+    dateFormat: "Y-m-d",   // formato para enviar
+    altInput: true,        // mostrar formato amigable
+    altFormat: "d/m/Y",    // formato visible para el usuario
+    locale: "es",          // idioma español
+    defaultDate: "today",  // fecha por defecto: hoy
+    onChange: function(selectedDates, dateStr, instance) {
+      // Si querés que se busque automáticamente al elegir fecha:
+      // buscarPorFecha();
+    }
+  });
+</script>
+
 </body>
     
 </html>
