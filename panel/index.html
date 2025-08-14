@@ -650,6 +650,16 @@ input[type="date"]:focus {
     box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 
 }
+.logo-container {
+    text-align: center; /* centrar logo */
+    margin-bottom: 10px; /* separar del resto */
+}
+
+.logo-turno {
+    width: 50px; /* ajustar tamaño */
+    height: auto;
+    display: inline-block;
+}
 
 /* Hover elegante */
 .resultado:hover {
@@ -1318,8 +1328,11 @@ function fechaVacunaToString(fechaStr) {
         data.resultados.forEach((turno, i) => {
   html += `
     <div class="resultado ${i % 2 === 0 ? '' : 'alternado'}">
-        <div class="badge-hora">${formatearHora(turno.turno)}</div>
+    <div class="badge-hora">${formatearHora(turno.turno)}</div>
+    
+    <div class="logo-container">
         <img src="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" alt="Logo" class="logo-turno"> 
+    </div>
         <label><i class="fas fa-store"></i> Comercio</label>
         <input type="text" value="${turno.nombre}" disabled />
         
