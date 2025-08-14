@@ -582,9 +582,9 @@ body.logueado #navbarMenu {
     <input type="text" id="usuario" placeholder="Usuario" />
     <input type="password" id="clave" style="text-align: center;" placeholder="Clave" />
     <button onclick="login()">Ingresar</button>
-     <div id="cargando" style="text-align: center;">
-  <i class="fas fa-spinner fa-spin"></i> Cargando, por favor esperá...
-</div>
+    <div id="cargandoLogin" style="text-align: center; display: none;">
+    <i class="fas fa-spinner fa-spin"></i> Cargando, por favor esperá...
+  </div> 
     <p id="errorLogin" style="color:red; display:none;">Usuario o clave incorrecta</p>
   </div>
 </div>
@@ -706,6 +706,13 @@ const urlScript = "https://script.google.com/macros/s/AKfycbynvfWxVLQKACZp5mAaXe
 function login() {
   const usuario = document.getElementById("usuario").value.trim();
   const clave = document.getElementById("clave").value.trim();
+  const btnLogin = document.getElementById("btnLogin");       // Botón "Ingresar"
+  const cargando = document.getElementById("cargandoLogin");  // Spinner "Cargando..."
+
+  // Mostrar cargando y ocultar botón
+  btnLogin.style.display = "none";
+  cargando.style.display = "block";
+  document.getElementById("errorLogin").style.display = "none"; // Ocultar error previo
 
   fetch(urlScript, {
     method: "POST",
@@ -729,6 +736,11 @@ function login() {
     console.error(err);
     document.getElementById("errorLogin").style.display = "block";
     document.getElementById("errorLogin").textContent = "Error en la conexión";
+  })
+  .finally(() => {
+    // Restaurar botón y ocultar cargando
+    cargando.style.display = "none";
+    btnLogin.style.display = "inline-block";
   });
 }
 
