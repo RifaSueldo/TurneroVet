@@ -9,9 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
   <link rel="icon" href="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" href="favicon.png">
 <!-- O para .ico -->
-<link rel="icon" href="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" href="favicon.ico">
-<!-- Flatpickr CSS -->
+<!-- Flatpickr JS y locales -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+   
 <!-- Tema moderno -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
 <!-- Open Graph para redes sociales como Facebook, WhatsApp -->
@@ -686,14 +688,13 @@ input[type="date"]:focus {
 <div id="resultadoGeneral"></div>-->
 
     <!-- NUEVO: BUSCADOR POR FECHA -->
-    <section id="turnos">
-  <div id="busquedaFecha">
+    <<section id="turnos">
+  <div id="busquedaFecha" style="text-align:center;">
     <label for="fechaTurno"><strong>TURNOS:</strong></label>
-    <div id="calendarWrapper" style="display:flex; justify-content:center;"></div> <!-- Contenedor del calendario -->
+    <!-- Contenedor para el calendario inline -->
+    <div id="fechaTurno"></div>
 
-    <div id="cargandoFecha" style="display:none; margin-top:8px; color:#666;">
-      Buscando turnos...
-    </div>
+    <div id="cargandoFecha" style="display:none; margin-top:8px; color:#666;">Buscando turnos...</div>
     <div id="resultadoFecha" style="margin-top: 15px;"></div>
   </div>
 </section>
@@ -1529,15 +1530,31 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
 
 <script>
   flatpickr("#fechaTurno", {
-  dateFormat: "Y-m-d",
-  locale: "es",
-  inline: true, // calendario siempre visible
-  defaultDate: "today",
-  appendTo: document.getElementById("calendarWrapper"), // lo inserta dentro del div centrado
-  onChange: function(selectedDates, dateStr, instance) {
-    buscarPorFecha();
-  }
-});
+    inline: true,           // calendario siempre visible
+    dateFormat: "Y-m-d",    // formato para enviar
+    locale: "es",           // idioma español
+    defaultDate: "today",   // fecha por defecto: hoy
+    onChange: function(selectedDates, dateStr, instance) {
+      // Llama a buscarPorFecha automáticamente al seleccionar fecha
+      buscarPorFecha(dateStr);
+    }
+  });
+
+  // Opcional: estilizar colores del calendario
+  const style = document.createElement("style");
+  style.textContent = `
+    .flatpickr-calendar {
+      border-color: #533482;
+    }
+    .flatpickr-day.selected, .flatpickr-day.today {
+      background: #533482 !important;
+      color: #fff !important;
+    }
+    .flatpickr-months, .flatpickr-weekdays {
+      color: #533482;
+    }
+  `;
+  document.head.appendChild(style);
 </script>
 </body>
     
