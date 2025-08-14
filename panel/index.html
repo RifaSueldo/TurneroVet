@@ -59,20 +59,11 @@ html {
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   backdrop-filter: blur(6px);
 }
-/* Header del calendario */
-     .calendario-header {
-    display: flex
-;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 20px;
-    background: #6B6870;
-    color: #fff;
-}
-        
-.flatpickr-months {
-    background-color: #533482 !important; /* tu color */
-    color: #fff !important; /* color de texto y flechas */
+/* Fondo del header completo (mes + año + flechas) */
+.flatpickr-months,
+.flatpickr-current-month {
+    background-color: #533482 !important;
+    color: #fff !important;
 }
 
 /* Flechas de navegación */
@@ -81,7 +72,7 @@ html {
     color: #fff !important;
 }
 
-/* Año y mes dentro del header */
+/* Texto del mes y año */
 .flatpickr-current-month span.cur-month,
 .flatpickr-current-month span.cur-year {
     color: #fff !important;
