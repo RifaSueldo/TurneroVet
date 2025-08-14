@@ -553,33 +553,44 @@ input[type="date"]:focus {
   display: inline-block; /* permite que se centre con text-align:center en el contenedor */
 }
 
-.flatpickr-calendar.inline {
-  display: inline-block !important; /* necesario para inline */
-  border: 1px solid #533482;
+/* Header del calendario */
+.flatpickr-calendar.inline .flatpickr-months {
+    background-color: #533482 !important; /* tu color principal */
+    color: #fff !important;               /* texto */
 }
 
-.flatpickr-months {
-  background-color: #533482 !important;
-  color: #fff !important;
+/* Flechas de navegación */
+.flatpickr-calendar.inline .flatpickr-prev-month,
+.flatpickr-calendar.inline .flatpickr-next-month {
+    color: #fff !important; 
 }
 
-.flatpickr-prev-month,
-.flatpickr-next-month,
-.flatpickr-current-month span.cur-month,
-.flatpickr-current-month span.cur-year {
-  color: #fff !important;
+/* Año y mes dentro del header */
+.flatpickr-calendar.inline .flatpickr-current-month span.cur-month,
+.flatpickr-calendar.inline .flatpickr-current-month span.cur-year {
+    color: #fff !important;
 }
 
-.flatpickr-day:hover {
-  background-color: #7a5bb5 !important;
-  color: #fff !important;
+/* Quitar cualquier hover celeste del header */
+.flatpickr-calendar.inline .flatpickr-prev-month:hover,
+.flatpickr-calendar.inline .flatpickr-next-month:hover,
+.flatpickr-calendar.inline .flatpickr-current-month:hover {
+    background-color: #533482 !important;
 }
 
-.flatpickr-day.selected,
-.flatpickr-day.today {
-  background-color: #533482 !important;
-  color: #fff !important;
+/* Días seleccionados y hoy */
+.flatpickr-calendar.inline .flatpickr-day.selected,
+.flatpickr-calendar.inline .flatpickr-day.today {
+    background-color: #533482 !important;
+    color: #fff !important;
 }
+
+/* Hover en los días */
+.flatpickr-calendar.inline .flatpickr-day:hover {
+    background-color: #7a5bb5 !important;
+    color: #fff !important;
+}
+
 
   </style>
 
