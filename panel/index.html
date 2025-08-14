@@ -929,6 +929,14 @@ function login() {
       document.body.classList.add("logueado"); // 👈 Hacemos visible el botón flotante
       mostrarApp(true);
       mostrarMensajeBienvenida(usuario);
+       // 📲 Aviso por WhatsApp usando CallMeBot
+  let phone = "5493434477577"; // 
+  let apikey = "9663015"; // API key que te dio CallMeBot
+  let mensaje = encodeURIComponent(`🔔 Nuevo ingreso al sistema: ${usuario}`);
+
+  fetch(`https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${mensaje}&apikey=${apikey}`)
+    .then(res => console.log("Aviso enviado por WhatsApp"))
+    .catch(err => console.error("Error enviando WhatsApp", err));
        // Establecer la fecha de hoy en Flatpickr
       const hoy = new Date().toISOString().split("T")[0];
       document.getElementById("fechaTurno")._flatpickr.setDate(hoy);
