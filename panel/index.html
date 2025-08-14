@@ -60,14 +60,12 @@ html {
   backdrop-filter: blur(6px);
 }
 /* Fondo del header completo (mes + año + flechas) */
-     .flatpickr-current-month {
-    background: #533482 !important;
-}
-
+     /* Header del calendario: mes + año + flechas */
 .flatpickr-months,
 .flatpickr-current-month {
-    background-color: #533482 !important;
-    color: #fff !important;
+    background: #533482 !important;  /* fondo sólido */
+    color: #fff !important;           /* texto */
+    border: none !important;          /* quitar borde si lo hay */
 }
 
 /* Flechas de navegación */
@@ -81,6 +79,22 @@ html {
 .flatpickr-current-month span.cur-year {
     color: #fff !important;
 }
+
+/* Quitar hover que cambia el fondo del header */
+.flatpickr-months:hover,
+.flatpickr-current-month:hover,
+.flatpickr-prev-month:hover,
+.flatpickr-next-month:hover {
+    background: #533482 !important;
+    color: #fff !important;
+}
+
+/* Quitar gradientes que Flatpickr aplica internamente */
+.flatpickr-current-month:before,
+.flatpickr-current-month:after {
+    background: none !important;
+}
+
 
 #fechaTurno {
   font-family: font-family: "Montserrat", sans-serif;
