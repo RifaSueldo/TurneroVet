@@ -293,15 +293,10 @@ html {
 
     /* NUEVO: Contenedor para búsqueda por fecha */
     #busquedaFecha {
-      margin-top: 20px;
-      padding: 15px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(196, 38, 133, 0.2);
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: center;
+     display: flex;
+  flex-direction: column; /* para mantener label + calendario vertical */
+  align-items: center;    /* centra horizontalmente todo */
+  margin: 20px auto;
     }
     .bloque-campos {
   border-top: 1px dotted #000000;
@@ -585,7 +580,10 @@ input[type="date"]:focus {
     background: #6B6870 !important;
     color: #fff !important;
 }
- 
+/* Asegurar que el calendario no ocupe todo el ancho */
+#fechaTurno {
+  display: inline-block;
+} 
   </style>
 
 </head>
@@ -1541,9 +1539,7 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
   // Opcional: estilizar colores del calendario
   const style = document.createElement("style");
   style.textContent = `
-    .flatpickr-calendar {
-      border-color: #533482;
-    }
+    
     .flatpickr-day.selected, .flatpickr-day.today {
       background: #533482 !important;
       color: #fff !important;
