@@ -558,29 +558,34 @@ input[type="date"]:focus {
   box-shadow: 0 0 6px rgba(122, 86, 182, 0.5);
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-  background-color: #533482;
-  border-radius: 4px;
-  padding: 4px;
-  cursor: pointer;
-  filter: invert(1);
-}
+/* Centrar el calendario en todos los dispositivos */
+  .calendar-container {
+    display: flex;
+    justify-content: center; /* centra horizontalmente */
+    margin: 0 auto 20px auto; /* margen arriba y abajo */
+  }
 
-button {
-  padding: 8px 14px;
-  background-color: #533482;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+  /* Cambiar colores principales de Flatpickr */
+  .flatpickr-months {
+    background-color: #533482;
+    color: #fff;
+  }
 
-button:hover {
-  background-color: #6d4ca1;
-}
+  .flatpickr-day.selected,
+  .flatpickr-day.today {
+    background-color: #533482;
+    color: #fff;
+  }
 
+  .flatpickr-day:hover {
+    background-color: #7a5bb5; /* un tono más claro para hover */
+  }
+
+  /* Opcional: bordes del calendario */
+  .flatpickr-calendar {
+    border: 2px solid #533482;
+    border-radius: 10px;
+  }
   </style>
 
 </head>
@@ -684,7 +689,7 @@ button:hover {
     <section id="turnos">
   <div id="busquedaFecha">
     <label for="fechaTurno"><strong>TURNOS:</strong></label>
-    <div id="fechaTurno"></div> <!-- Contenedor del calendario -->
+    <div id="fechaTurno" class="calendar-container"></div> <!-- Contenedor del calendario -->
 
     <div id="cargandoFecha" style="display:none; margin-top:8px; color:#666;">
       Buscando turnos...
@@ -1532,6 +1537,7 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
       buscarPorFecha();     // buscar turnos automáticamente al elegir
     }
   });
+
 </script>
 </body>
     
