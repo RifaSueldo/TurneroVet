@@ -1522,16 +1522,21 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
 
 <script>
   flatpickr("#fechaTurno", {
-    dateFormat: "Y-m-d",   // formato para enviar al servidor
-    altInput: true,        // formato amigable visible
-    altFormat: "d/m/Y",    // formato visible para el usuario
-    locale: "es",          // idioma español
-    inline: true,          // ❗ calendario siempre visible
-    defaultDate: "today",  // fecha por defecto
-    onChange: function(selectedDates, dateStr, instance) {
-      buscarPorFecha();    // buscar automáticamente al seleccionar día
-    }
-  });
+  dateFormat: "Y-m-d",
+  altInput: true,
+  altFormat: "d/m/Y",
+  locale: "es",
+  inline: true,
+  defaultDate: "today",
+  altInputClass: "form-control", // opcional: clases CSS
+  onReady: function(selectedDates, dateStr, instance) {
+    instance.altInput.setAttribute("placeholder", "Seleccioná una fecha");
+  },
+  onChange: function(selectedDates, dateStr, instance) {
+    buscarPorFecha();
+  }
+});
+
 </script>
 </body>
     
