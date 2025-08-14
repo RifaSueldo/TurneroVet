@@ -684,7 +684,7 @@ input[type="date"]:focus {
 <div id="resultadoGeneral"></div>-->
 
     <!-- NUEVO: BUSCADOR POR FECHA -->
-    <<section id="turnos">
+    <section id="turnos">
   <div id="busquedaFecha" style="text-align:center;">
     <label for="fechaTurno"><strong>TURNOS:</strong></label>
     <!-- Contenedor para el calendario inline -->
@@ -825,9 +825,10 @@ window.onload = () => {
   if (logueado) {
     const usuario = sessionStorage.getItem("usuario") || "";
     mostrarMensajeBienvenida(usuario);
+     // Obtener la fecha de hoy en formato YYYY-MM-DD
     const hoy = new Date().toISOString().split("T")[0];
-    document.getElementById("fechaTurno").value = hoy;
-    buscarPorFecha();
+    document.getElementById("fechaTurno")._flatpickr.setDate(hoy); // actualizar flatpickr
+    buscarPorFecha(); // carga automáticamente los turnos del día
   }
 };
 
