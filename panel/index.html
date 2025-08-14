@@ -606,6 +606,13 @@ input[type="date"]:focus {
 }
 
 /* Contenedor de todos los turnos */
+#resultadoFecha h3 {
+    text-align: center;   /* Centrado en todos los dispositivos */
+    color: #533482;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 20px;
+   font-family: 'Montserrat', sans-serif;
+}
 
 #resultadoFecha {
     display: flex;
@@ -613,18 +620,35 @@ input[type="date"]:focus {
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
+   font-family: 'Montserrat', sans-serif;
 }
 
 /* Tarjeta de turno */
 .resultado {
-    background: linear-gradient(145deg, #f5f0ff, #fff); /* degradado suave */
+    background: linear-gradient(145deg, #f5f0ff, #fff);
     border-radius: 14px;
     box-shadow: 0 6px 15px rgba(0,0,0,0.15);
     padding: 20px;
     width: 320px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     transition: transform 0.2s, box-shadow 0.2s;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centramos contenido dentro de la tarjeta */
+}
+
+/* Logo dentro del turno */
+.resultado .logo-turno {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    object-fit: contain;
+    background-color: #fff;
+    padding: 5px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+
 }
 
 /* Hover elegante */
@@ -641,12 +665,14 @@ input[type="date"]:focus {
     align-items: center;
     margin-top: 10px;
     font-size: 14px;
+   font-family: 'Montserrat', sans-serif;
 }
 
 /* Iconos junto al label */
 .resultado label i {
     margin-right: 6px;
     color: #7a5bb5;
+   font-family: 'Montserrat', sans-serif;
 }
 
 /* Campos de información */
@@ -659,6 +685,7 @@ input[type="date"]:focus {
     margin-top: 4px;
     font-size: 14px;
     color: #333;
+   font-family: 'Montserrat', sans-serif;
 }
 
 /* Alternado (opcional) */
@@ -670,12 +697,14 @@ input[type="date"]:focus {
 .resultado input[disabled][value*="comentario"] {
     font-style: italic;
     color: #666;
+   font-family: 'Montserrat', sans-serif;
 }
 
 /* ID Cliente pequeño y discreto */
 .resultado input[disabled][value*="dni"] {
     font-size: 12px;
     color: #999;
+   font-family: 'Montserrat', sans-serif;
 }
 
 /* Badge de hora */
@@ -689,6 +718,7 @@ input[type="date"]:focus {
     border-radius: 10px;
     font-size: 12px;
     font-weight: 600;
+   font-family: 'Montserrat', sans-serif;
 }
 
 
@@ -1289,6 +1319,7 @@ function fechaVacunaToString(fechaStr) {
   html += `
     <div class="resultado ${i % 2 === 0 ? '' : 'alternado'}">
         <div class="badge-hora">${formatearHora(turno.turno)}</div>
+        <img src="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" alt="Logo" class="logo-turno">  <!-- <---- Logo agregado -->
         <label><i class="fas fa-store"></i> Comercio</label>
         <input type="text" value="${turno.nombre}" disabled />
         
