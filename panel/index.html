@@ -773,6 +773,11 @@ function login() {
       document.body.classList.add("logueado"); // 👈 Hacemos visible el botón flotante
       mostrarApp(true);
       mostrarMensajeBienvenida(usuario);
+       // Establecer la fecha de hoy en Flatpickr
+      const hoy = new Date().toISOString().split("T")[0];
+      document.getElementById("fechaTurno")._flatpickr.setDate(hoy);
+       // Buscar automáticamente los turnos de hoy
+  buscarPorFecha();
     } else {
       document.getElementById("errorLogin").style.display = "block";
       document.getElementById("errorLogin").textContent = data.error || "Usuario o clave incorrecta";
