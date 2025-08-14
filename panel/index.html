@@ -684,8 +684,7 @@ button:hover {
     <section id="turnos">
   <div id="busquedaFecha">
     <label for="fechaTurno"><strong>TURNOS:</strong></label>
-    <!-- Input original -->
-    <input type="text" id="fechaTurno" placeholder="Seleccioná una fecha" />
+    <div id="fechaTurno"></div> <!-- Contenedor del calendario -->
 
     <div id="cargandoFecha" style="display:none; margin-top:8px; color:#666;">
       Buscando turnos...
@@ -693,6 +692,7 @@ button:hover {
     <div id="resultadoFecha" style="margin-top: 15px;"></div>
   </div>
 </section>
+
      <section id="lista"> 
 <!-- Contenedor para botón Mostrar IDs con spinner propio -->
 <div style="text-align:center; margin: 20px 0;">
@@ -1524,19 +1524,12 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
 
 <script>
   flatpickr("#fechaTurno", {
-    dateFormat: "Y-m-d",      // Formato para enviar al servidor
-    altInput: true,            // Mostrar un input amigable
-    altFormat: "d/m/Y",        // Formato visible para el usuario
+    dateFormat: "Y-m-d",   // formato para enviar
     locale: "es",
-    inline: true,              // Calendario siempre visible
+    inline: true,           // calendario siempre visible
     defaultDate: "today",
-    onReady: function(selectedDates, dateStr, instance) {
-      // Seteamos el placeholder del altInput generado
-      instance.altInput.setAttribute("placeholder", "Seleccioná una fecha");
-    },
     onChange: function(selectedDates, dateStr, instance) {
-      // Buscar turnos automáticamente al seleccionar una fecha
-      buscarPorFecha();
+      buscarPorFecha();     // buscar turnos automáticamente al elegir
     }
   });
 </script>
