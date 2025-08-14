@@ -738,9 +738,7 @@ function mostrarMensajeBienvenida(usuario) {
 function logout() {
   sessionStorage.removeItem("logueado");
   mostrarApp(false);
-    // Ocultar menú y botón hamburguesa
-  document.getElementById("navbarToggle").style.display = "none";
-  document.getElementById("navbarMenu").style.display = "none";
+   
 }
 
   
@@ -750,6 +748,10 @@ function mostrarApp(show) {
   document.getElementById("appDiv").style.display = show ? "block" : "none";
   // Mostrar u ocultar créditos según login
   document.getElementById("creditosDiv").style.display = show ? "block" : "none";
+    // Mostrar u ocultar el botón hamburguesa
+  const toggleBtn = document.getElementById("navbarToggle");
+  if (toggleBtn) toggleBtn.style.display = show ? "block" : "none";
+
   if (!show) document.getElementById("resultadoGeneral").innerHTML = "";
 }
 
