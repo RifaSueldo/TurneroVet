@@ -646,10 +646,13 @@ body.logueado #navbarMenu {
     <section id="turnos">
     <div id="busquedaFecha">
       <label for="fechaTurno"><strong>TURNOS:</strong></label>
-      <input type="date" id="fechaTurno" />
-      <button onclick="buscarPorFecha()"><i class="fas fa-calendar-check"></i> Buscar turnos</button>
-      <div id="cargandoFecha" style="display:none; margin-top:8px; color:#666;"> Buscando turnos...</div>
-      <div id="resultadoFecha" style="margin-top: 15px;"></div>
+      <input type="date" id="fechaTurno" onchange="buscarPorFecha()" />
+
+<div id="cargandoFecha" style="display:none; margin-top:8px; color:#666;">
+  <i class="fas fa-spinner fa-spin"></i> Buscando turnos...
+</div>
+
+<div id="resultadoFecha" style="margin-top: 15px;"></div>
     </div>
 </section>
      <section id="lista"> 
@@ -1087,28 +1090,58 @@ function buscarPorFecha() {
   const resultadoFecha = document.getElementById("resultadoFecha");
   const cargandoFecha = document.getElementById("cargandoFecha");
 
-  if (!fecha) {
-    alert("Por favor, seleccioná una fecha.");
-    return;
-  }
-
   resultadoFecha.innerHTML = "";
+
+  if (!fecha) return; // Si no hay fecha, no buscamos
+
   cargandoFecha.style.display = "block";
 
   fetch(urlScript + "?fecha=" + encodeURIComponent(fecha))
-    .then(res => res.text()) // ✅ Primero obtenemos la respuesta como texto
+    .then(res => res.text())
     .then(text => {
-      console.log("Respuesta cruda:", text); // 🔍 Mostrar respuesta en consola
-
       let data;
       try {
-        data = JSON.parse(text); // Intentar parsear el JSON manualmente
+        data = JSON.parse(text);
       } catch (err) {
         console.error("Error al parsear JSON:", err);
-        alert("La respuesta del servidor no es un JSON válido.");
+        resultadoFecha.innerHTML = `<p style="color:red;">Error al procesar la respuesta.</p>`;
         cargandoFecha.style.display = "none";
         return;
       }
+
+      cargandoFecha.style.display = "none";
+
+      if (data.success && data.resultados.length > 0) {
+        let [anio, mes, dia] = fecha.split("-");
+        let fechaFormateada = `${dia}/${mes}/${anio}`;
+        let html = `<h3>Turnos para el día ${fechaFormateada}</h3>`;
+
+        data.resultados.forEach(turno => {
+          html += `
+            <div class="tarjeta-turno">
+              <p><strong>Hora:</strong> ${formatearHora(turno.turno)}</p>
+              <p><strong>Comercio:</strong> ${turno.nombre}</p>
+              <p><strong>Nombre y Apellido:</strong> ${turno.nombreMascota}</p>
+              <p><strong>Dirección:</strong> ${turno.tipoMascota}</p>
+              <p><strong>Email:</strong> ${turno.email}</p>
+              <p><strong>Teléfono:</strong> <a href="https://wa.me/${turno.telefono.replace(/\D/g,'')}" target="_blank">${turno.telefono}</a></p>
+              <p><strong>Comentario:</strong> ${turno.comentario}</p>
+              <p><strong>ID Cliente:</strong> ${turno.dniMascota}</p>
+            </div>`;
+        });
+
+        resultadoFecha.innerHTML = html;
+      } else {
+        resultadoFecha.innerHTML = `<p style="color:#533482;">No hay turnos para este día</p>`;
+      }
+    })
+    .catch(err => {
+      cargandoFecha.style.display = "none";
+      console.error("Error:", err);
+      resultadoFecha.innerHTML = `<p style="color:red;">Error al buscar turnos.</p>`;
+    });
+}
+
 
       cargandoFecha.style.display = "none";
 
