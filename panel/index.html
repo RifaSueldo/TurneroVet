@@ -1095,13 +1095,13 @@ function fechaVacunaToString(fechaStr) {
   cargandoFecha.style.display = "block";
 
   fetch(urlScript + "?fecha=" + encodeURIComponent(fecha))
-    .then(res => res.text()) // ✅ Primero obtenemos la respuesta como texto
+    .then(res => res.text())
     .then(text => {
-      console.log("Respuesta cruda:", text); // 🔍 Mostrar respuesta en consola
+      console.log("Respuesta cruda:", text);
 
       let data;
       try {
-        data = JSON.parse(text); // Intentar parsear el JSON manualmente
+        data = JSON.parse(text);
       } catch (err) {
         console.error("Error al parsear JSON:", err);
         alert("La respuesta del servidor no es un JSON válido.");
@@ -1113,11 +1113,11 @@ function fechaVacunaToString(fechaStr) {
 
       if (data.success && data.resultados.length > 0) {
         let [anio, mes, dia] = fecha.split("-");
-let fechaFormateada = ${dia}/${mes}/${anio};
-let html = <h3>Turnos para el día ${fechaFormateada}</h3>;
+        let fechaFormateada = `${dia}/${mes}/${anio}`;
+        let html = `<h3>Turnos para el día ${fechaFormateada}</h3>`;
 
         data.resultados.forEach((turno, i) => {
-          html += 
+          html += `
             <div class="resultado ${i % 2 === 0 ? "" : "alternado"}">
               <label>Hora:</label>
               <input type="text" value="${formatearHora(turno.turno)}" disabled />
@@ -1129,18 +1129,18 @@ let html = <h3>Turnos para el día ${fechaFormateada}</h3>;
               <input type="text" value="${turno.tipoMascota}" disabled />
               <label>Email:</label>
               <input type="text" value="${turno.email}" disabled />
-               <label>Teléfono:</label>
+              <label>Teléfono:</label>
               <input type="text" value="${turno.telefono}" disabled />
               <label>Comentario:</label>
               <input type="text" value="${turno.comentario}" disabled />
               <label>ID Cliente:</label>
               <input type="text" value="${turno.dniMascota}" disabled />
-            </div>; 
+            </div>`; 
         });
 
         resultadoFecha.innerHTML = html;
       } else {
-        resultadoFecha.innerHTML = <p style="color:#533482;">No hay turnos para este día</p>;
+        resultadoFecha.innerHTML = `<p style="color:#533482;">No hay turnos para este día</p>`;
       }
     })
     .catch(err => {
