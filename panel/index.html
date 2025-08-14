@@ -751,6 +751,9 @@ function mostrarApp(show) {
     // Mostrar u ocultar el botón hamburguesa
   const toggleBtn = document.getElementById("navbarToggle");
   if (toggleBtn) toggleBtn.style.display = show ? "block" : "none";
+   // Menú
+  const menu = document.getElementById("navbarMenu");
+  if (menu) menu.style.display = show ? "block" : "none";
 
   if (!show) document.getElementById("resultadoGeneral").innerHTML = "";
 }
