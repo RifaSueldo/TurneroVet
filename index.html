@@ -67,8 +67,24 @@ section.visible {
   justify-content: space-between;
   align-items: center;
   padding: 12px 20px;
-  background: #6B6870;
-  color: #fff;
+   background: 
+        linear-gradient(
+            135deg,
+            #d0d0d0 0%, 
+            #f0f0f0 25%, 
+            #c0c0c0 50%, 
+            #e0e0e0 75%, 
+            #d0d0d0 100%
+        ),
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.05) 0px,
+            rgba(255,255,255,0.05) 2px,
+            transparent 2px,
+            transparent 4px
+        );
+    background-blend-mode: overlay;
+  color: #533482;
 }
 .calendario-header button {
   background: white;
@@ -115,9 +131,25 @@ section.visible {
   cursor: default;
 }
 .turnos, .formulario, #ticket {
+  background: 
+        linear-gradient(
+            135deg,
+            #d0d0d0 0%, 
+            #f0f0f0 25%, 
+            #c0c0c0 50%, 
+            #e0e0e0 75%, 
+            #d0d0d0 100%
+        ),
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.05) 0px,
+            rgba(255,255,255,0.05) 2px,
+            transparent 2px,
+            transparent 4px
+        );
+    background-blend-mode: overlay;
   margin: 20px auto;
   max-width: 305px;
-  background: white;
   border: 1px solid #eee;
   border-radius: 10px;
   box-shadow: 0 0 8px rgba(0,0,0,0.05);
@@ -132,7 +164,7 @@ section.visible {
   color: white;
   border: none;
   padding: 10px;
-  border-radius: 6px;
+  border-radius: 14px;
   cursor: pointer;
   width: 100%;
   font-size: 16px;
@@ -364,7 +396,7 @@ section.visible {
 
 .navbar-logo img,
 .navbar-logo p {
-  width: 90px;
+  width: 130px;
   opacity: 0;
   transform: translateX(100px);
   animation: slideInRight 1.2s cubic-bezier(0.25, 1, 0.5, 0.2) forwards,
@@ -693,7 +725,7 @@ section.visible {
 .texto-secundario {
   margin: 0;
   font-size: 0.75em;
-  color: #fff; /* magenta que venimos usando */
+  color: #533482; 
   font-style: italic;
 }
 .turno-button {
@@ -764,8 +796,8 @@ section.visible {
   <div class="navbar-logo"> 
     
    <img src="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" alt="Logo" />
-    <p style="text-align:center; margin:0px; font-size: 10px;">Con tu Logo</p>
-    <p style="text-align:center; margin:0px; font-size: 10px;">y Tus Colores</p>
+    <p style="text-align:center; margin:0px; font-size: 10px;">Tu Logo | Tus Colores</p>
+    
   </div>
  <div class="navbar-action">
     <button class="btn-redireccion" onclick="window.location.href='panel/'">
@@ -808,23 +840,23 @@ section.visible {
 
 <div class="turnos" id="turnos"></div>
 <div id="dniStep" style="display:none; text-align:center; margin:20px;">
-  <h3>¿Ya tenés ID de Cliente?</h3>
-  <input type="text" id="dniIngreso" placeholder="ID de Cliente" maxlength="6" style="text-align: center; padding:8px; font-size:14px; margin:10px 0;">
+  
+  <input type="text" id="dniIngreso" placeholder="Tu DNI" maxlength="8" style="text-align: center; padding:8px; font-size:14px; margin:10px 0;">
   <br>
-  <button onclick="verificarDni()" style="background:#533482; color:white; padding:10px 15px; border:none; border-radius:6px; cursor:pointer;">Cargar Datos con ID</button>
+  <button onclick="verificarDni()" style="background:#533482; color:white; padding:10px 15px; border:none; border-radius:6px; cursor:pointer;">Cargar Datos con DNI</button>
   <p style="margin:15px 0;">o</p>
-  <button onclick="mostrarFormularioNuevo()" style="background:#6B6870; color:white; padding:10px; border:none; border-radius:6px; cursor:pointer;">No tengo ID de Cliente</button>
-  <p id="dniError" style="color:red; display:none; margin-top:10px;">No se encontró ningun cliente con ese ID.</p>
+  <button onclick="mostrarFormularioNuevo()" style="background:#6B6870; color:white; padding:10px; border:none; border-radius:6px; cursor:pointer;">Es mi primera vez</button>
+  <p id="dniError" style="color:red; display:none; margin-top:10px;">No se encontró ningun cliente con ese DNI.</p>
 </div>
 
 <div class="formulario" id="formularioReserva" style="display:none;">
   <h3>Reservar turno</h3>
-  <input type="text" id="nombre" placeholder="Nombre Comercio" value="Barbería X" readonly required />
+  <input type="text" id="nombre" placeholder="Nombre Comercio" value="Ej: Barbería X" readonly style="border: none; background: none; pointer-events: none; color: inherit; font-weight: bold; font-size: 16px;" />
   <input type="text" id="nombreMascota" placeholder="Nombre y Apellido" required />
   <input type="text" id="tipoMascota" placeholder="Dirección" required />
   <input type="email" id="email" placeholder="Tu correo" required />
   <input type="tel" id="telefono" placeholder="Tu teléfono" required />
-  <input type="text" id="dniMascota" placeholder="ID Turno. Dejalo vacío" />
+  <input type="text" id="dniMascota" placeholder="Tu DNI" />
   <textarea id="comentario" placeholder="Comentario (opcional)"></textarea>
   <button onclick="enviarReserva()">Confirmar y enviar</button>
 </div>
@@ -833,12 +865,12 @@ section.visible {
    
   <img id="logoTicket" src="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" alt="Logo" style="max-width: 150px; display: block; margin: 0 auto 15px;">
   <h3 style="Font-size: 24px;">Reservaste turno</h3>
-  <p><strong>Nombre Comercio:</strong> <span id="tNombre"></span></p>
+  <p><strong><span id="tNombre"></span></strong> </p>
   <p><strong>Nombre y Apellido:</strong> <span id="tNombreMascota"></span></p>
   <p><strong>Dirección:</strong> <span id="tTipoMascota"></span></p>
   <p><strong>Email:</strong> <span id="tEmail"></span></p>
   <p><strong>Teléfono:</strong> <span id="tTelefono"></span></p>
-  <p><strong>ID Cliente:</strong> <span id="tDniMascota"></span></p>
+  <p><strong>DNI:</strong> <span id="tDniMascota"></span></p>
   <p><strong>Fecha:</strong> <span id="tFecha"></span></p>
   <p><strong>Turno:</strong> <span id="tTurno"></span></p>
   <p><strong>Comentario:</strong> <span id="tComentario"></span></p>
@@ -1067,11 +1099,7 @@ contenedorTurnos.appendChild(btn);
       ocultarLoader(); // Ocultar loader si falta algún dato
       return;
     }
-    if (!dniMascota) {
-      dniMascota = generarDniMascota();
-      dniMascotaInput.value = dniMascota;
-    }
-
+    
     const datos = {
       nombre,
       nombreMascota,
