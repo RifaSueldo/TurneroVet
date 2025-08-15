@@ -1086,6 +1086,7 @@ contenedorTurnos.appendChild(btn);
 
   function enviarReserva(){
     mostrarLoader("Enviando reserva...");  // MOSTRAR loader al iniciar envío
+    
     const nombre = nombreInput.value.trim();
     const nombreMascota = nombreMascotaInput.value.trim();
     const tipoMascota = tipoMascotaInput.value.trim();
@@ -1099,15 +1100,10 @@ contenedorTurnos.appendChild(btn);
       ocultarLoader(); // Ocultar loader si falta algún dato
       return;
     }
-     // 🔔 Enviar aviso por WhatsApp usando CallMeBot
+    // 🔔 Enviar aviso por WhatsApp usando CallMeBot
   const phone = "5493434477577"; // tu número
   const apikey = "9663015";      // tu API key
-  const mensaje = encodeURIComponent(
-  `🔔 Nuevo ingreso al sistema:\n` +
-  `Cliente: ${nombreMascota}\n` +
-  `Turno: ${turnoSeleccionado} - ${formatFechaDDMMYYYY(diaSeleccionado)}\n` +
-  `Teléfono: ${telefono}\n` +
-  `Comentario: ${comentario || "Ninguno"}`
+  const mensaje = encodeURIComponent(`🔔 Alguien solicitó un turno: ${telefono}`);
 
   fetch(`https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${mensaje}&apikey=${apikey}`)
     .then(() => console.log("Aviso enviado por WhatsApp"))
