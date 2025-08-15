@@ -944,40 +944,21 @@ input[type="date"]:focus {
     <button onclick="cerrarModalCampo()" style="background:#EDEDED;">Cancelar</button>
   </div>
 </div>
-
 <script>
+  const bloquesVisiblesPorRegistro = {};
 const urlScript = "https://script.google.com/macros/s/AKfycbynvfWxVLQKACZp5mAaXeE-QXEd-BjTmucmH8zuDU-3rdWKf1wmNNgcJrEm2x8Q3r19/exec";
 
-// ---------------------- SESIÓN Y LOGIN ----------------------
-function mostrarApp(show) {
-  document.getElementById("loginDiv").style.display = show ? "none" : "block";
-  document.getElementById("appDiv").style.display = show ? "block" : "none";
-  document.getElementById("creditosDiv").style.display = show ? "block" : "none";
-
-  const toggleBtn = document.getElementById("navbarToggle");
-  if (toggleBtn) toggleBtn.style.display = show ? "block" : "none";
-
-  const menu = document.getElementById("navbarMenu");
-  if (menu) menu.style.display = show ? "block" : "none";
-
-  if (!show) document.getElementById("resultadoGeneral").innerHTML = "";
-}
-
-function mostrarMensajeBienvenida(usuario) {
-  const contenedor = document.getElementById("mensajeBienvenida");
-  contenedor.textContent = `¡Hola, ${usuario}!`;
-  contenedor.style.display = "block";
-}
-
+// LOGIN (validación desde backend)
 function login() {
   const usuario = document.getElementById("usuario").value.trim();
   const clave = document.getElementById("clave").value.trim();
-  const btnLogin = document.getElementById("btnLogin");
-  const cargando = document.getElementById("cargandoLogin");
+  const btnLogin = document.getElementById("btnLogin");       // Botón "Ingresar"
+  const cargando = document.getElementById("cargandoLogin");  // Spinner "Cargando..."
 
+  // Mostrar cargando y ocultar botón
   btnLogin.style.display = "none";
   cargando.style.display = "block";
-  document.getElementById("errorLogin").style.display = "none";
+  document.getElementById("errorLogin").style.display = "none"; // Ocultar error previo
 
   fetch(urlScript, {
     method: "POST",
@@ -988,68 +969,112 @@ function login() {
   .then(data => {
     if (data.success) {
       sessionStorage.setItem("logueado", "true");
-      sessionStorage.setItem("usuario", usuario);
-      document.body.classList.add("logueado");
+      sessionStorage.setItem("usuario", usuario); // Guardar usuario
+      document.body.classList.add("logueado"); // 👈 Hacemos visible el botón flotante
       mostrarApp(true);
       mostrarMensajeBienvenida(usuario);
+       // 📲 Aviso por WhatsApp usando CallMeBot
+  let phone = "5493434477577"; // 
+  let apikey = "9663015"; // API key que te dio CallMeBot
+  let mensaje = encodeURIComponent(`🔔 Nuevo ingreso al sistema: ${usuario}`);
 
-      // Aviso WhatsApp
-      let phone = "5493434477577";
-      let apikey = "9663015";
-      let mensaje = encodeURIComponent(`🔔 Nuevo ingreso al sistema: ${usuario}`);
-      fetch(`https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${mensaje}&apikey=${apikey}`)
-        .catch(err => console.error("Error enviando WhatsApp", err));
-
-      // Flatpickr y turnos
+  fetch(`https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${mensaje}&apikey=${apikey}`)
+    .then(res => console.log("Aviso enviado por WhatsApp"))
+    .catch(err => console.error("Error enviando WhatsApp", err));
+       // Establecer la fecha de hoy en Flatpickr
       const hoy = new Date().toISOString().split("T")[0];
-      if (document.getElementById("fechaTurno")._flatpickr) {
-        document.getElementById("fechaTurno")._flatpickr.setDate(hoy);
-      }
-      buscarPorFecha();
+      document.getElementById("fechaTurno")._flatpickr.setDate(hoy);
+       // Buscar automáticamente los turnos de hoy
+  buscarPorFecha();
     } else {
-      const errorDiv = document.getElementById("errorLogin");
-      errorDiv.style.display = "block";
-      errorDiv.textContent = data.error || "Usuario o clave incorrecta";
+      document.getElementById("errorLogin").style.display = "block";
+      document.getElementById("errorLogin").textContent = data.error || "Usuario o clave incorrecta";
     }
   })
   .catch(err => {
     console.error(err);
-    const errorDiv = document.getElementById("errorLogin");
-    errorDiv.style.display = "block";
-    errorDiv.textContent = "Error en la conexión";
+    document.getElementById("errorLogin").style.display = "block";
+    document.getElementById("errorLogin").textContent = "Error en la conexión";
   })
   .finally(() => {
+    // Restaurar botón y ocultar cargando
     cargando.style.display = "none";
     btnLogin.style.display = "inline-block";
   });
 }
 
+function mostrarMensajeBienvenida(usuario) {
+  const contenedor = document.getElementById("mensajeBienvenida");
+  contenedor.textContent = `¡Hola, ${usuario}!`;
+  contenedor.style.display = "block";
+}
+
 function logout() {
   sessionStorage.removeItem("logueado");
-  document.body.classList.remove("logueado");
   mostrarApp(false);
-
-  // Cerrar menú hamburguesa
-  const menu = document.getElementById('navbarMenu');
-  const toggleBtn = document.getElementById('navbarToggle');
-  menu.classList.remove('active');
-  toggleBtn.classList.remove('active');
+   
 }
 
-// ---------------------- BÚSQUEDA GENERAL / HISTORIAL ----------------------
-function buscarGeneral() {
-  const query = document.getElementById("inputBusquedaGeneral").value.trim().toLowerCase();
-  if (!query) return alert("Ingresá un dato para buscar.");
-  ejecutarBusqueda("?buscar=" + encodeURIComponent(query), "Resultados encontrados:");
+  
+
+function mostrarApp(show) {
+  document.getElementById("loginDiv").style.display = show ? "none" : "block";
+  document.getElementById("appDiv").style.display = show ? "block" : "none";
+  // Mostrar u ocultar créditos según login
+  document.getElementById("creditosDiv").style.display = show ? "block" : "none";
+    // Mostrar u ocultar el botón hamburguesa
+  const toggleBtn = document.getElementById("navbarToggle");
+  if (toggleBtn) toggleBtn.style.display = show ? "block" : "none";
+   // Menú
+  const menu = document.getElementById("navbarMenu");
+  if (menu) menu.style.display = show ? "block" : "none";
+
+  if (!show) document.getElementById("resultadoGeneral").innerHTML = "";
 }
 
-function verHistorial() {
-  const dni = document.getElementById("inputBusquedaGeneral").value.trim().toUpperCase();
-  if (!dni) return alert("Ingresá un ID válido.");
-  ejecutarBusqueda("?historial=" + dni, `Ficha Médica ID: ${dni}`);
+window.onload = () => {
+  const logueado = sessionStorage.getItem("logueado") === "true";
+  mostrarApp(logueado);
+  if (logueado) {
+    const usuario = sessionStorage.getItem("usuario") || "";
+    mostrarMensajeBienvenida(usuario);
+     // Obtener la fecha de hoy en formato YYYY-MM-DD
+    const hoy = new Date().toISOString().split("T")[0];
+    document.getElementById("fechaTurno")._flatpickr.setDate(hoy); // actualizar flatpickr
+    buscarPorFecha(); // carga automáticamente los turnos del día
+  }
+};
+
+ 
+function fechaVacunaToString(fechaStr) {
+  // Formatear fecha para mostrar en lista (DD/MM/YYYY)
+  function parseFechaDDMMYYYY(str) {
+    if (!str) return null;
+    const partes = str.split("/");
+    if (partes.length !== 3) return null;
+    const [dia, mes, anio] = partes.map(Number);
+    return new Date(anio, mes - 1, dia);
+  }
+  let fecha = parseFechaDDMMYYYY(fechaStr);
+  if (!fecha) fecha = new Date(fechaStr);
+  if (!fecha || isNaN(fecha.getTime())) return fechaStr;
+  return fecha.toLocaleDateString("es-AR");
 }
 
-function ejecutarBusqueda(parametro, titulo) {
+  // BUSQUEDA GENERAL
+  function buscarGeneral() {
+    const query = document.getElementById("inputBusquedaGeneral").value.trim().toLowerCase();
+    if (!query) return alert("Ingresá un dato para buscar.");
+    ejecutarBusqueda("?buscar=" + encodeURIComponent(query), "Resultados encontrados:");
+  }
+
+  function verHistorial() {
+    const dni = document.getElementById("inputBusquedaGeneral").value.trim().toUpperCase();
+    if (!dni) return alert("Ingresá un ID válido.");
+    ejecutarBusqueda("?historial=" + dni, `Ficha Médica ID: ${dni}`);
+  }
+
+  function ejecutarBusqueda(parametro, titulo) {
   const resultadoDiv = document.getElementById("resultadoGeneral");
   const cargando = document.getElementById("cargando");
   resultadoDiv.innerHTML = "";
@@ -1072,46 +1097,88 @@ function ejecutarBusqueda(parametro, titulo) {
     });
 }
 
-function mostrarResultados(lista, titulo, esBusquedaGeneral = false) {
+
+  function mostrarResultados(lista, titulo, esBusquedaGeneral = false) {
   const resultadoDiv = document.getElementById("resultadoGeneral");
   let html = `<h3>${titulo}</h3>`;
 
   lista.forEach((r, index) => {
     const claseFondo = index % 2 === 0 ? "" : "alternado";
+
     if (esBusquedaGeneral) {
+      // Solo campos básicos para búsqueda general
       html += `
         <div class="resultado ${claseFondo}" id="registro-${index}">
           <label>Nombre Comercio:</label>
           <input type="text" value="${r.nombre}" disabled>
+
           <label>Nombre y Apellido:</label>
           <input type="text" value="${r.nombreMascota}" disabled>
+
           <label>ID Cliente:</label>
           <input type="text" value="${r.dniMascota}" disabled>
-        </div>`;
+        </div>
+      `;
     } else {
+      // Mostrar todos los campos completos para historial o búsqueda detallada
       html += `
         <div class="resultado ${claseFondo}" id="registro-${index}">
-          <label>Paciente desde:</label><input type="text" value="${r.fecha}" disabled>
-          <label>ID Mascota:</label><input type="text" id="dni-${index}" value="${r.dniMascota}" disabled>
-          <label>Nombre Humano:</label><input type="text" id="nombre-${index}" value="${r.nombre}" disabled>
-          <label>Nombre Mascota:</label><input type="text" id="mascota-${index}" value="${r.nombreMascota}" disabled>
-          <label>Especie:</label><input type="text" id="tipo-${index}" value="${r.tipoMascota}" disabled>
-          <label>Email:</label><input type="email" id="email-${index}" value="${r.email}" disabled>
-          <label>Teléfono:</label><input type="text" id="tel-${index}" value="${r.telefono}" disabled>
-          <label>Fecha de Nac:</label><input type="text" id="fehcaDeNac-${index}" value="${r.fehcaDeNac ? new Date(r.fehcaDeNac).toLocaleDateString('es-AR') : ''}" disabled>
-          <label>Peso:</label><input type="text" id="peso-${index}" value="${r.peso || ''}" disabled>
-          <label>Veterinario que lo atiende:</label><textarea id="historial-${index}" disabled>${r.veterinario || ''}</textarea>
-          <label>Próxima vacuna:</label><input type="text" id="proximaVacuna-${index}" value="${r.proxima_vacuna ? new Date(r.proxima_vacuna).toLocaleDateString('es-AR') : ''}" disabled>
+          <label>Paciente desde:</label>
+          <input type="text" value="${r.fecha}" disabled>
+          
+          <label>ID Mascota:</label>
+          <input type="text" id="dni-${index}" value="${r.dniMascota}" disabled>
+          
+          <label>Nombre Humano:</label>
+          <input type="text" id="nombre-${index}" value="${r.nombre}" disabled>
+          
+          <label>Nombre Mascota:</label>
+          <input type="text" id="mascota-${index}" value="${r.nombreMascota}" disabled>
+          
+          <label>Especie:</label>
+          <input type="text" id="tipo-${index}" value="${r.tipoMascota}" disabled>
+          
+          <label>Email:</label>
+          <input type="email" id="email-${index}" value="${r.email}" disabled>
+          
+          <label>Teléfono:</label>
+          <input type="text" id="tel-${index}" value="${r.telefono}" disabled>
+
+          <label>Fecha de Nac:</label>
+<input type="text" id="fehcaDeNac-${index}" 
+  value="${r.fehcaDeNac ? new Date(r.fehcaDeNac).toLocaleDateString('es-AR') : ''}" 
+  disabled>
+
+          
+          <label>Peso:</label>
+          <input type="text" id="peso-${index}" value="${r.peso || ''}" disabled>
+          
+          <label>Veterinario que lo atiende:</label>
+          <textarea id="historial-${index}" disabled>${r.veterinario || ''}</textarea>
+          
+          <label>Próxima vacuna:</label>
+<input type="text" id="proximaVacuna-${index}" 
+  value="${r.proxima_vacuna ? new Date(r.proxima_vacuna).toLocaleDateString('es-AR') : ''}" 
+  disabled>
+
+
           <div id="extraCampos-${index}"></div>
-          <button type="button" onclick="agregarBloqueCampos(${index})"><i class="fas fa-plus"></i> Agregar Datos Médicos</button>
-          <button id="btnEditar-${index}" onclick="habilitarEdicion(${index})"><i class="fas fa-edit"></i> Editar</button>
-        </div>`;
+
+          <button type="button" onclick="agregarBloqueCampos(${index})" style="margin-top: 5px;">
+            <i class="fas fa-plus"></i> Agregar Datos Médicos
+          </button>
+
+          <button id="btnEditar-${index}" onclick="habilitarEdicion(${index})" style="margin-top: 10px;">
+            <i class="fas fa-edit"></i> Editar
+          </button>
+        </div>
+      `;
     }
   });
 
   resultadoDiv.innerHTML = html;
 
-  // Renderizar extras
+  // Renderizar los bloques extras solo en búsqueda detallada
   if (!esBusquedaGeneral) {
     lista.forEach((r, index) => {
       renderizarBloquesExtras(index, r.extras);
@@ -1119,27 +1186,56 @@ function mostrarResultados(lista, titulo, esBusquedaGeneral = false) {
   }
 }
 
-// ---------------------- EDICIÓN / GUARDAR ----------------------
-function habilitarEdicion(index) {
-  const campos = [`nombre-${index}`, `mascota-${index}`, `tipo-${index}`, `email-${index}`, `tel-${index}`,
-    `fehcaDeNac-${index}`, `peso-${index}`, `historial-${index}`, `proximaVacuna-${index}`];
-  campos.forEach(id => document.getElementById(id).disabled = false);
 
-  // Convertir fechas a type="date"
-  const fechaCampos = [`fehcaDeNac-${index}`, `proximaVacuna-${index}`];
-  fechaCampos.forEach(id => {
-    const input = document.getElementById(id);
-    if (input && input.value) {
-      const partes = input.value.split("/");
-      if (partes.length === 3) input.value = `${partes[2]}-${partes[1].padStart(2,'0')}-${partes[0].padStart(2,'0')}`;
-    }
-    if(input) input.type="date";
+  // HABILITAR EDICIÓN
+  function habilitarEdicion(index) {
+  // Campos fijos
+  const campos = [
+    `nombre-${index}`, `mascota-${index}`, `tipo-${index}`, `email-${index}`, `tel-${index}`,
+    `fehcaDeNac-${index}`, `peso-${index}`, `historial-${index}`, `proximaVacuna-${index}`
+  ];
+  campos.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = false;
   });
-
-  // Bloques extras
+ // Habilitar y convertir a <input type="date"> el campo Próxima vacuna
+  const proximaVacunaInput = document.getElementById(`proximaVacuna-${index}`);
+  if (proximaVacunaInput) {
+    let fechaISO = "";
+    if (proximaVacunaInput.value) {
+      const partes = proximaVacunaInput.value.split("/");
+      if (partes.length === 3) {
+        fechaISO = `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
+      }
+    }
+    proximaVacunaInput.type = "date";
+    proximaVacunaInput.value = fechaISO;
+    proximaVacunaInput.disabled = false;
+  }
+    // ✅ Habilitar y convertir a <input type="date"> el campo Fecha de nacimiento
+  const fechaNacInput = document.getElementById(`fehcaDeNac-${index}`);
+  if (fechaNacInput) {
+    let fechaISO = "";
+    if (fechaNacInput.value) {
+      const partes = fechaNacInput.value.split("/"); // Formato dd/mm/yyyy
+      if (partes.length === 3) {
+        fechaISO = `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
+      }
+    }
+    fechaNacInput.type = "date";
+    fechaNacInput.value = fechaISO;
+    fechaNacInput.disabled = false;
+  }
+  // Campos dinámicos dentro de los bloques
   const contenedorExtras = document.getElementById(`extraCampos-${index}`);
-  contenedorExtras?.querySelectorAll('input, select, textarea').forEach(c => c.disabled = false);
+  if (contenedorExtras) {
+    // Habilitar todos los inputs, selects y textareas dentro de los bloques dinámicos
+    contenedorExtras.querySelectorAll('input, select, textarea').forEach(campo => {
+      campo.disabled = false;
+    });
+  }
 
+  // Cambiar el botón para que guarde los cambios
   const btn = document.getElementById(`btnEditar-${index}`);
   if (btn) {
     btn.innerHTML = '<i class="fas fa-save"></i> Guardar';
@@ -1147,7 +1243,9 @@ function habilitarEdicion(index) {
   }
 }
 
-function guardarCambios(index) {
+
+  // GUARDAR CAMBIOS
+ function guardarCambios(index) {
   const datosActualizados = {
     dniMascota: document.getElementById(`dni-${index}`).value.trim(),
     nombre: document.getElementById(`nombre-${index}`).value.trim(),
@@ -1165,13 +1263,20 @@ function guardarCambios(index) {
   const contenedorExtras = document.getElementById(`extraCampos-${index}`);
   if (contenedorExtras) {
     const bloques = contenedorExtras.getElementsByClassName("bloque-campos");
-    for (let i=0; i<bloques.length; i++) {
+
+    for (let i = 0; i < bloques.length; i++) {
       const bloque = bloques[i];
+
+      // Obtener valores de cada campo dentro del bloque
       const fecha = bloque.querySelector('input[type="date"]')?.value || "";
       const selectMotivo = bloque.querySelector('select[multiple]');
-      const motivos = selectMotivo ? Array.from(selectMotivo.selectedOptions).map(o=>o.value).join(", ") : "";
+      const motivos = selectMotivo
+        ? Array.from(selectMotivo.selectedOptions).map(opt => opt.value).join(", ")
+        : "";
       const descripcion = bloque.querySelector('textarea')?.value || "";
       const observaciones = bloque.querySelector('textarea')?.value || "";
+
+      // Guardar con claves ordenadas para backend
       datosActualizados.extras[`Fecha_${i+1}`] = fecha;
       datosActualizados.extras[`Motivo_${i+1}`] = motivos;
       datosActualizados.extras[`Descripción_${i+1}`] = descripcion;
@@ -1183,212 +1288,497 @@ function guardarCambios(index) {
     method: "POST",
     body: new URLSearchParams({
       accion: "editar",
-      datos: JSON.stringify(datosActualizados)
+      datos: JSON.stringify(datosActualizados),
+    }),
+  })
+    .then(res => res.json())
+    .then(resp => {
+      if (resp.success) {
+        alert("Cambios guardados correctamente.");
+        buscarGeneral();
+      } else {
+        alert("Error: " + resp.error);
+      }
     })
-  })
-  .then(res=>res.json())
-  .then(resp => {
-    if (resp.success) { alert("Cambios guardados correctamente."); buscarGeneral(); }
-    else alert("Error: " + resp.error);
-  })
-  .catch(()=>alert("Error de conexión al guardar los cambios."));
+    .catch(() => alert("Error de conexión al guardar los cambios."));
 }
 
-// ---------------------- BLOQUES EXTRAS ----------------------
-function renderizarBloquesExtras(index, extras) {
+</script>
+
+  <script>
+   function formatearHora(hora) {
+  if (!hora) return "";
+
+  let fechaObj;
+
+  // Si la hora viene como ISO (e.g. "2025-08-01T20:16:00.000Z")
+  if (typeof hora === "string" && hora.includes("T")) {
+    fechaObj = new Date(hora);
+  }
+  // Si la hora viene como "16:00:00" o "16:00"
+  else if (typeof hora === "string" && hora.includes(":")) {
+    const [h, m] = hora.split(":");
+    fechaObj = new Date();
+    fechaObj.setHours(parseInt(h, 10), parseInt(m, 10), 0, 0);
+  }
+  // Si ya es Date o timestamp
+  else if (hora instanceof Date || typeof hora === "number") {
+    fechaObj = new Date(hora);
+  }
+
+  if (!fechaObj) return hora;
+
+  // ✅ Restar 1 hora y 15 minutos manualmente
+  fechaObj.setMinutes(fechaObj.getMinutes() - 75);
+
+  return fechaObj.toLocaleTimeString("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  });
+}
+
+    
+
+
+     function buscarPorFecha() {
+  const fecha = document.getElementById("fechaTurno").value;
+  const resultadoFecha = document.getElementById("resultadoFecha");
+  const cargandoFecha = document.getElementById("cargandoFecha");
+
+  if (!fecha) {
+    alert("Por favor, seleccioná una fecha.");
+    return;
+  }
+
+  resultadoFecha.innerHTML = "";
+  cargandoFecha.style.display = "block";
+
+  fetch(urlScript + "?fecha=" + encodeURIComponent(fecha))
+    .then(res => res.text())
+    .then(text => {
+      console.log("Respuesta cruda:", text);
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (err) {
+        console.error("Error al parsear JSON:", err);
+        alert("La respuesta del servidor no es un JSON válido.");
+        cargandoFecha.style.display = "none";
+        return;
+      }
+
+      cargandoFecha.style.display = "none";
+
+      if (data.success && data.resultados.length > 0) {
+        let [anio, mes, dia] = fecha.split("-");
+        let fechaFormateada = `${dia}/${mes}/${anio}`;
+        let html = `<h3>Turnos para el día ${fechaFormateada}</h3>`;
+
+        data.resultados.forEach((turno, i) => {
+  html += `
+    <div class="resultado ${i % 2 === 0 ? '' : 'alternado'}">
+    <div class="badge-hora">${formatearHora(turno.turno)}</div>
+    
+    <div class="logo-container">
+        <img src="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" alt="Logo" class="logo-turno"> 
+    </div>
+        <label><i class="fas fa-store"></i> Comercio</label>
+        <input type="text" value="${turno.nombre}" disabled />
+        
+        <label><i class="fas fa-user"></i> Nombre</label>
+        <input type="text" value="${turno.nombreMascota}" disabled />
+        
+        <label><i class="fas fa-map-marker-alt"></i> Dirección</label>
+        <input type="text" value="${turno.tipoMascota}" disabled />
+        
+        <label><i class="fas fa-envelope"></i> Email</label>
+        <input type="text" value="${turno.email}" disabled />
+        
+        <label><i class="fas fa-phone"></i> Teléfono</label>
+        <input type="text" value="${turno.telefono}" disabled />
+        
+        <label><i class="fas fa-comment"></i> Comentario</label>
+        <input type="text" value="${turno.comentario}" disabled />
+        
+        <label><i class="fas fa-id-badge"></i> ID Cliente</label>
+        <input type="text" value="${turno.dniMascota}" disabled />
+    </div>`;
+});
+
+        resultadoFecha.innerHTML = html;
+      } else {
+        resultadoFecha.innerHTML = `<p style="color:#533482;">No hay turnos para este día</p>`;
+      }
+    })
+    .catch(err => {
+      cargandoFecha.style.display = "none";
+      console.error("Error en fetch o en el parseo:", err);
+      alert("Error al buscar turnos por fecha.");
+    });
+}
+
+// Test de depuración manual:
+fetch(urlScript + "?fecha=2025-07-30")
+  .then(res => res.text())
+  .then(console.log)
+  .catch(err => console.error("Fetch error:", err));
+
+</script>
+  <script>
+    
+    function renderizarBloquesExtras(index, extras) {
   const contenedor = document.getElementById(`extraCampos-${index}`);
   if (!contenedor) return;
-  contenedor.innerHTML = "";
-  if (!extras) return;
+  contenedor.innerHTML = ""; // Limpiar bloques previos
 
+  if (!extras) return; // No hay extras, no hacemos nada
+
+  // Agrupar datos por número de bloque
   const bloques = {};
+
   Object.entries(extras).forEach(([clave, valor]) => {
-    const [campo, num] = clave.split("_");
-    if (!bloques[num]) bloques[num]={};
-    bloques[num][campo]=valor;
+    const partes = clave.split("_");
+    if (partes.length !== 2) return; // clave mal formada
+    const campo = partes[0];
+    const num = partes[1];
+    if (!bloques[num]) bloques[num] = {};
+    bloques[num][campo] = valor;
   });
 
-  Object.entries(bloques).forEach(([num, bloque])=>{
-    const tieneDatos = Object.values(bloque).some(v=>v&&v.trim()!=="");
-    if(tieneDatos) crearBloqueConDatos(contenedor,bloque);
+  // Crear bloques solo si tienen datos (al menos un campo con texto)
+  Object.entries(bloques).forEach(([num, bloque]) => {
+    const tieneDatos = Object.values(bloque).some(v => v && v.trim() !== "");
+    if (tieneDatos) {
+      crearBloqueConDatos(contenedor, bloque);
+    }
   });
 }
 
 function crearBloqueConDatos(contenedor, bloque) {
-  const div = document.createElement("div");
-  div.className="bloque-campos"; div.style.borderTop="3px dotted #000"; div.style.marginTop="10px"; div.style.paddingTop="10px";
+  const bloqueDiv = document.createElement("div");
+  bloqueDiv.className = "bloque-campos";
+  bloqueDiv.style.borderTop = "3px dotted #000000";
+  bloqueDiv.style.marginTop = "10px";
+  bloqueDiv.style.paddingTop = "10px";
 
-  const crearCampo = (labelTxt, tipo, valor, multiple=false, opciones=[])=>{
-    const lbl = document.createElement("label"); lbl.textContent=labelTxt;
-    let input;
-    if(tipo==="select"){
-      input = document.createElement("select"); input.multiple=multiple; input.disabled=true;
-      opciones.forEach(op=>{
-        const opt = document.createElement("option"); opt.value=op; opt.textContent=op;
-        if(bloque.Motivo?.split(",").map(s=>s.trim()).includes(op)) opt.selected=true;
-        input.appendChild(opt);
-      });
-    } else if(tipo==="textarea"){ input=document.createElement("textarea"); input.value=valor||""; input.disabled=true; }
-    else { input=document.createElement("input"); input.type=tipo; input.value=valor||""; input.disabled=true; }
-    div.appendChild(lbl); div.appendChild(input);
-  };
-
-  crearCampo("Fecha","date",bloque.Fecha);
-  crearCampo("Motivo","select","",true,["Consulta","Vacuna","Antiparasitario","Tratamiento","Cirugía","Otro"]);
-  crearCampo("Descripción","textarea",bloque.Descripción);
-  crearCampo("Observaciones","textarea",bloque.Observaciones);
-
-  contenedor.appendChild(div);
+  // Fecha
+  const labelFecha = document.createElement("label");
+  labelFecha.textContent = "Fecha:";
+  const inputFecha = document.createElement("input");
+  inputFecha.type = "date";
+  if (bloque.Fecha) {
+  // Convertir "2025-08-01" o ISO a formato válido para <input type="date">
+  const fechaISO = new Date(bloque.Fecha).toISOString().split("T")[0];
+  inputFecha.value = fechaISO;
+} else {
+  inputFecha.value = "";
 }
 
-function agregarBloqueCampos(index){
-  const container=document.getElementById(`extraCampos-${index}`);
-  const bloque=document.createElement("div"); bloque.className="bloque-campos";
-  bloque.style.borderTop="1px dotted #EDEDED"; bloque.style.marginTop="10px"; bloque.style.paddingTop="10px";
+  inputFecha.disabled = true;
 
-  const crearInput=(labelTxt,tipo,multiple=false,opciones=[])=>{
-    const lbl=document.createElement("label"); lbl.textContent=labelTxt;
-    let input;
-    if(tipo==="select"){
-      input=document.createElement("select"); input.multiple=multiple; input.disabled=true;
-      opciones.forEach(op=>{ const opt=document.createElement("option"); opt.value=op; opt.textContent=op; input.appendChild(opt); });
-    } else if(tipo==="textarea") input=document.createElement("textarea"); 
-    else { input=document.createElement("input"); input.type=tipo; if(tipo==="date") input.valueAsDate=new Date(); input.disabled=true; }
-    bloque.appendChild(lbl); bloque.appendChild(input);
-  };
+  // Motivo (multiple)
+  const labelMotivo = document.createElement("label");
+  labelMotivo.textContent = "Motivo:";
+  const selectMotivo = document.createElement("select");
+  selectMotivo.multiple = true;
+  selectMotivo.disabled = true;
+  ["Consulta", "Vacuna", "Antiparasitario", "Tratamiento", "Cirugía", "Otro"].forEach(opcion => {
+    const opt = document.createElement("option");
+    opt.value = opcion;
+    opt.textContent = opcion;
+    // Seleccionar si está en los datos
+    if (bloque.Motivo) {
+      const motivos = bloque.Motivo.split(",").map(s => s.trim());
+      if (motivos.includes(opcion)) opt.selected = true;
+    }
+    selectMotivo.appendChild(opt);
+  });
 
-  crearInput("Fecha","date");
-  crearInput("Motivo","select",true,["Consulta","Vacuna","Antiparasitario","Tratamiento","Cirugía"]);
-  crearInput("Descripción","textarea");
-  crearInput("Observaciones","textarea");
+  // Descripción
+  const labelDescripcion = document.createElement("label");
+labelDescripcion.textContent = "Descripción:";
+const inputDescripcion = document.createElement("textarea");
+inputDescripcion.type = "text";
+inputDescripcion.value = bloque.Descripción || "";
+inputDescripcion.disabled = true;
 
+  // Observaciones
+  const labelObs = document.createElement("label");
+  labelObs.textContent = "Observaciones:";
+  const textareaObs = document.createElement("textarea");
+  textareaObs.rows = 3;
+  textareaObs.value = bloque.Observaciones || "";
+  textareaObs.disabled = true;
+
+  // Agregar todos los elementos al bloque
+  bloqueDiv.appendChild(labelFecha);
+  bloqueDiv.appendChild(inputFecha);
+  bloqueDiv.appendChild(labelMotivo);
+  bloqueDiv.appendChild(selectMotivo);
+  bloqueDiv.appendChild(labelDescripcion);
+  bloqueDiv.appendChild(inputDescripcion);
+  bloqueDiv.appendChild(labelObs);
+  bloqueDiv.appendChild(textareaObs);
+
+  contenedor.appendChild(bloqueDiv);
+}
+
+    
+  function agregarBloqueCampos(index) {
+  const container = document.getElementById(`extraCampos-${index}`);
+
+  const bloque = document.createElement("div");
+  bloque.className = "bloque-campos";
+  bloque.style.borderTop = "1px dotted #EDEDED";
+  bloque.style.marginTop = "10px";
+  bloque.style.paddingTop = "10px";
+
+  // Fecha (automática)
+  const fechaLabel = document.createElement("label");
+  fechaLabel.textContent = "Fecha:";
+  const fechaInput = document.createElement("input");
+  fechaInput.type = "date";
+  fechaInput.valueAsDate = new Date();
+  fechaInput.disabled = true;  // DESHABILITADO al crear
+
+  // Motivo (multi-opciones)
+  const motivoLabel = document.createElement("label");
+  motivoLabel.textContent = "Motivo:";
+  const motivoSelect = document.createElement("select");
+  motivoSelect.multiple = true;
+  motivoSelect.disabled = true; // DESHABILITADO al crear
+  ["Consulta", "Vacuna", "Antiparasitario", "Tratamiento", "Cirugía"].forEach(opcion => {
+    const opt = document.createElement("option");
+    opt.value = opcion;
+    opt.textContent = opcion;
+    motivoSelect.appendChild(opt);
+  });
+
+  // Descripción (texto corto)
+  const descripcionLabel = document.createElement("label");
+  descripcionLabel.textContent = "Descripción:";
+  const descripcionTextarea = document.createElement("textarea");
+  descripcionTextarea.type = "text";
+  descripcionTextarea.disabled = true;  // DESHABILITADO al crear
+
+  // Observaciones (texto largo)
+  const observacionesLabel = document.createElement("label");
+  observacionesLabel.textContent = "Observaciones:";
+  const observacionesTextarea = document.createElement("textarea");
+  observacionesTextarea.disabled = true; // DESHABILITADO al crear
+
+  // Agregar todos los campos al bloque
+  bloque.appendChild(fechaLabel);
+  bloque.appendChild(fechaInput);
+
+  bloque.appendChild(motivoLabel);
+  bloque.appendChild(motivoSelect);
+
+  bloque.appendChild(descripcionLabel);
+  bloque.appendChild(descripcionTextarea);
+
+  bloque.appendChild(observacionesLabel);
+  bloque.appendChild(observacionesTextarea);
+
+  // Agregar el bloque al contenedor del registro indicado
   container.appendChild(bloque);
 }
-
-// ---------------------- BÚSQUEDA POR FECHA Y TURNOS ----------------------
-function formatearHora(hora){
-  if(!hora) return "";
-  let fechaObj;
-  if(typeof hora==="string" && hora.includes("T")) fechaObj=new Date(hora);
-  else if(typeof hora==="string" && hora.includes(":")){ const [h,m]=hora.split(":"); fechaObj=new Date(); fechaObj.setHours(parseInt(h),parseInt(m),0,0); }
-  else if(hora instanceof Date||typeof hora==="number") fechaObj=new Date(hora);
-  if(!fechaObj) return hora;
-  fechaObj.setMinutes(fechaObj.getMinutes()-75);
-  return fechaObj.toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit",hour12:false});
+function parseFechaDDMMYYYY(str) {
+  // str esperado: "05/08/2025"
+  if (!str) return null;
+  const partes = str.split("/");
+  if (partes.length !== 3) return null;
+  const [dia, mes, anio] = partes.map(Number);
+  return new Date(anio, mes - 1, dia);
 }
 
-function buscarPorFecha(){
-  const fecha=document.getElementById("fechaTurno").value;
-  const resultadoFecha=document.getElementById("resultadoFecha");
-  const cargandoFecha=document.getElementById("cargandoFecha");
+</script>
+ <script>
+  window.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('logueado') === 'true') {
+      document.body.classList.add('logueado');
+    }
+  });
+</script> 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const creditosSpan = document.getElementById("creditosActuales");
+  const btnCreditos = document.getElementById("creditosBtn");
+  const tooltip = document.getElementById("tooltip");
+  const tooltipText = document.getElementById("tooltipText");
+  const btnAgregar = document.getElementById("agregarCreditosBtn");
 
-  if(!fecha){ alert("Por favor, seleccioná una fecha."); return; }
-
-  resultadoFecha.innerHTML="";
-  cargandoFecha.style.display="block";
-
-  fetch(urlScript+"?fecha="+encodeURIComponent(fecha))
-    .then(res=>res.text())
-    .then(text=>{
-      cargandoFecha.style.display="none";
-      let data;
-      try{ data=JSON.parse(text); }catch(e){ alert("Respuesta inválida"); return; }
-
-      if(data.success && data.resultados.length>0){
-        let [anio,mes,dia]=fecha.split("-");
-        let fechaFormateada=`${dia}/${mes}/${anio}`;
-        let html=`<h3>Turnos para el día ${fechaFormateada}</h3>`;
-        data.resultados.forEach((t,i)=>{
-          html+=`<div class="resultado ${i%2===0?'':'alternado'}">
-          <div class="badge-hora">${formatearHora(t.turno)}</div>
-          <div class="logo-container"><img src="https://i.ibb.co/p6Ycq6XC/Turnox-logo.png" alt="Logo" class="logo-turno"></div>
-          <label>Comercio</label><input type="text" value="${t.nombre}" disabled>
-          <label>Nombre</label><input type="text" value="${t.nombreMascota}" disabled>
-          <label>Dirección</label><input type="text" value="${t.tipoMascota}" disabled>
-          <label>Email</label><input type="text" value="${t.email}" disabled>
-          <label>Teléfono</label><input type="text" value="${t.telefono}" disabled>
-          <label>Comentario</label><input type="text" value="${t.comentario}" disabled>
-          <label>ID Cliente</label><input type="text" value="${t.dniMascota}" disabled>
-          </div>`;
-        });
-        resultadoFecha.innerHTML=html;
-      }else resultadoFecha.innerHTML=`<p style="color:#533482;">No hay turnos para este día</p>`;
-    })
-    .catch(err=>{ cargandoFecha.style.display="none"; alert("Error al buscar turnos"); });
-}
-
-// ---------------------- BURBUJA CRÉDITOS ----------------------
-document.addEventListener("DOMContentLoaded", ()=>{
-  const creditosSpan=document.getElementById("creditosActuales");
-  const btnCreditos=document.getElementById("creditosBtn");
-  const tooltip=document.getElementById("tooltip");
-  const tooltipText=document.getElementById("tooltipText");
-  const btnAgregar=document.getElementById("agregarCreditosBtn");
-
-  function cargarCreditos(){
-    fetch(urlScript+"?accion=creditos")
-      .then(r=>r.json())
-      .then(d=>creditosSpan.textContent=d.success?d.creditos:"Error")
-      .catch(()=>creditosSpan.textContent="Error");
+  // 1️⃣ Cargar créditos desde tu script de servidor
+  function cargarCreditos() {
+    fetch(urlScript + "?accion=creditos")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          creditosSpan.textContent = data.creditos;
+        } else {
+          creditosSpan.textContent = "Error";
+        }
+      })
+      .catch(() => creditosSpan.textContent = "Error");
   }
 
-  cargarCreditos();
+  document.getElementById("agregarCreditosBtn").addEventListener("click", () => {
+  const numero = "5493434477577";
 
-  btnCreditos.addEventListener("click", e=>{
+  // Leer usuario guardado en sessionStorage
+  const usuario = sessionStorage.getItem("usuario") || "Usuario";
+
+  const mensaje = encodeURIComponent(`Hola, soy ${usuario} y quiero agregar créditos.`);
+  const url = `https://wa.me/${numero}?text=${mensaje}`;
+  window.open(url, "_blank");
+});
+
+
+  // 3️⃣ Mostrar/ocultar burbuja
+  btnCreditos.addEventListener("click", (e) => {
     e.stopPropagation();
-    tooltipText.innerHTML=`Créditos disponibles: <b>${creditosSpan.textContent}</b>`;
+    tooltipText.innerHTML = `Créditos disponibles: <b>${creditosSpan.textContent}</b>`;
     tooltip.classList.toggle("visible");
-    localStorage.setItem("tooltipMostrado","true");
   });
 
-  document.addEventListener("click", e=>{
-    if(!btnCreditos.contains(e.target) && !tooltip.contains(e.target)) tooltip.classList.remove("visible");
+  // Cerrar si haces clic fuera
+  document.addEventListener("click", (e) => {
+    if (!btnCreditos.contains(e.target) && !tooltip.contains(e.target)) {
+      tooltip.classList.remove("visible");
+    }
   });
 
-  btnAgregar.addEventListener("click", ()=>{
-    const usuario=sessionStorage.getItem("usuario")||"Usuario";
-    const numero="5493434477577";
-    const mensaje=encodeURIComponent(`Hola, soy ${usuario} y quiero agregar créditos.`);
-    window.open(`https://wa.me/${numero}?text=${mensaje}`,"_blank");
+  // Botón dentro de la burbuja
+  btnAgregar.addEventListener("click", () => {
+    comprarCreditos(50); // ejemplo: abre pago para 50 créditos
   });
 
-  // Mostrar tooltip al cargar si no se mostró antes
-  const creditosTooltip=document.getElementById("creditosTooltip");
-  if(creditosTooltip && !localStorage.getItem("tooltipMostrado")){
-    setTimeout(()=>creditosTooltip.classList.add("show"),2000);
-  }
-});
-
-// ---------------------- MENÚ HAMBURGUESA ----------------------
-document.addEventListener("DOMContentLoaded", ()=>{
-  const toggleBtn=document.getElementById('navbarToggle');
-  const menu=document.getElementById('navbarMenu');
-
-  toggleBtn.addEventListener('click',()=>{
-    menu.classList.toggle('active');
-    toggleBtn.classList.toggle('active');
-  });
-
-  document.querySelectorAll('.navbar-menu .nav-link').forEach(link=>{
-    link.addEventListener('click',()=>{
-      menu.classList.remove('active');
-      toggleBtn.classList.remove('active');
-    });
-  });
-});
-
-// ---------------------- FLATPICKR ----------------------
-document.addEventListener("DOMContentLoaded", ()=>{
-  flatpickr("#fechaTurno", {
-    inline:true,
-    dateFormat:"Y-m-d",
-    locale:"es",
-    defaultDate:"today",
-    onChange:(selectedDates,dateStr)=>buscarPorFecha()
-  });
+  // Ejecutar carga inicial
+  cargarCreditos();
 });
 </script>
 
-</body>
+  <script>
+  const toggleBtn = document.getElementById('navbarToggle');
+  const menu = document.getElementById('navbarMenu');
+
+  // Abrir/cerrar menú
+  toggleBtn.addEventListener('click', () => {
+    menu.classList.toggle('active');
+    toggleBtn.classList.toggle('active'); // Cambia hamburguesa a X
+  });
+
+  // Cerrar menú al hacer clic en un enlace
+  document.querySelectorAll('.navbar-menu .nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.remove('active');
+      toggleBtn.classList.remove('active'); // Volver a hamburguesa
+    });
+  });
     
-</html>
+    function logout() {
+  sessionStorage.removeItem("logueado");
+  mostrarApp(false);
+
+  // Cerrar menú y resetear botón hamburguesa
+  menu.classList.remove('active');
+  toggleBtn.classList.remove('active');
+
+  // Opcional: si ocultás todo con una clase en body, la quitás también
+  document.body.classList.remove('logueado');
+}
+
+</script>
+
+ <script>
+document.getElementById("btnMostrarIds").addEventListener("click", () => {
+  const resultadoIds = document.getElementById("resultadoIds");
+  const cargandoIds = document.getElementById("cargandoIds");
+
+  resultadoIds.innerHTML = "";
+  cargandoIds.style.display = "block";
+
+  fetch(urlScript + "?buscar=todos")  // o el parámetro que uses para traer todos
+    .then(res => res.json())
+    .then(data => {
+      cargandoIds.style.display = "none";
+
+      if (data.success && data.resultados.length > 0) {
+        // Aquí procesás para filtrar IDs únicos y mostrar sus datos completos
+        const idsUnicos = {};
+        data.resultados.forEach(item => {
+          if (!idsUnicos[item.dniMascota]) {
+            idsUnicos[item.dniMascota] = item;
+          }
+        });
+
+        let html = "<h3>IDs únicos encontrados:</h3>";
+        Object.values(idsUnicos).forEach(item => {
+          html += `<div style="border:1px solid #ddd; padding:10px; margin-bottom:8px; text-align:left;">
+            <b>ID:</b> ${item.dniMascota} <br>
+            <b>Nombre Comercio:</b> ${item.nombre} <br>
+            <b>Nombre y Apellido:</b> ${item.nombreMascota} <br>
+            <b>Dirección:</b> ${item.tipoMascota} <br>
+            <b>Email:</b> ${item.email} <br>
+            <b>Teléfono:</b> ${item.telefono} <br>
+            <b>Comentario:</b> ${item.comentario || '-'} <br>
+            
+            <!-- Agregá más campos si querés -->
+          </div>`;
+        });
+
+        resultadoIds.innerHTML = html;
+      } else {
+        resultadoIds.innerHTML = "<p style='color:#533482;'>No se encontraron datos.</p>";
+      }
+    })
+    .catch(() => {
+      cargandoIds.style.display = "none";
+      alert("Error al buscar en la base de datos.");
+    });
+});
+
+
+</script> 
+ 
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
+<script>
+  flatpickr("#fechaTurno", {
+    inline: true,           // calendario siempre visible
+    dateFormat: "Y-m-d",    // formato para enviar
+    locale: "es",           // idioma español
+    defaultDate: "today",   // fecha por defecto: hoy
+    onChange: function(selectedDates, dateStr, instance) {
+      // Llama a buscarPorFecha automáticamente al seleccionar fecha
+      buscarPorFecha(dateStr);
+    }
+  });
+
+  
+</script>
+
+   <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const tooltip = document.getElementById("creditosTooltip");
+  const btn = document.getElementById("creditosBtn");
+
+  // Mostrar solo si no se ha mostrado antes
+  if (!localStorage.getItem("tooltipMostrado")) {
+    setTimeout(() => {
+      tooltip.classList.add("show"); // aplica la clase que hace visible
+      localStorage.setItem("tooltipMostrado", "true");
+    }, 2000); // 2000ms = 2 segundos
+  }
+
+  // Ocultar tooltip al hacer clic en el botón
+  btn.addEventListener("click", () => {
+    tooltip.classList.remove("show");
+  });
+});
+</script>
+</body></html>
