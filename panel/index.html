@@ -664,11 +664,11 @@ input[type="date"]:focus {
 .logo-container {
     text-align: center;
     margin-bottom: 10px;
-   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .logo-turno {
-    width: 130px;
+    width: 120px;
     height: auto;
     display: inline-block;
     object-fit: contain;
@@ -734,6 +734,18 @@ input[type="date"]:focus {
     z-index: 10;
 }
 
+.mensaje-clic {
+    font-size: 12px;
+    color: #999;
+    font-weight: normal;
+    margin-left: 6px;
+    animation: parpadeo 1s infinite alternate;
+}
+
+@keyframes parpadeo {
+    0% { opacity: 1; }
+    100% { opacity: 0.3; }
+}
 
   </style>
 
@@ -757,7 +769,7 @@ input[type="date"]:focus {
   <!-- Menú de enlaces -->
   <nav class="navbar-menu" id="navbarMenu">
     <a href="#turnos" class="nav-link">Turnos</a>
-     <a href="#lista" class="nav-link">Lista Completa</a>
+     <!--<a href="#lista" class="nav-link">Lista Completa</a>-->
     
      
     <button onclick="logout()" style="background:#EDEDED; color:#999">Cerrar sesión</button>
@@ -799,23 +811,21 @@ input[type="date"]:focus {
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" aria-hidden="true">
       <path fill="currentColor" fill-rule="evenodd" d="M17.47 8.893C18.886 8.185 19 7.577 19 7.5s-.114-.685-1.53-1.393C16.173 5.459 14.242 5 12 5s-4.173.459-5.47 1.107C5.114 6.815 5 7.423 5 7.5s.114.685 1.53 1.393C7.827 9.541 9.758 10 12 10s4.173-.459 5.47-1.107M21 7.5c0 2.485-4.03 4.5-9 4.5S3 9.985 3 7.5 7.03 3 12 3s9 2.015 9 4.5m-17 4a1 1 0 0 1 1 1c0 .137.053.327.262.573.389.457 1.196.953 2.42 1.331 1.196.37 2.686.596 4.318.596s3.123-.226 4.319-.596c1.223-.378 2.03-.874 2.42-1.331.208-.246.261-.436.261-.573a1 1 0 1 1 2 0c0 .721-.3 1.354-.738 1.869-.743.873-1.967 1.517-3.352 1.946-1.412.437-3.105.685-4.91.685s-3.498-.248-4.91-.685c-1.385-.429-2.609-1.073-3.352-1.946C3.301 13.854 3 13.22 3 12.5a1 1 0 0 1 1-1M5 17a1 1 0 1 0-2 0c0 .721.3 1.354.738 1.869.743.873 1.967 1.517 3.352 1.946 1.412.437 3.105.685 4.91.685s3.498-.248 4.91-.685c1.385-.429 2.609-1.073 3.352-1.946.437-.515.738-1.148.738-1.869a1 1 0 1 0-2 0c0 .137-.053.327-.262.573-.389.457-1.196.953-2.42 1.331-1.196.37-2.686.596-4.318.596s-3.122-.226-4.319-.596c-1.223-.378-2.03-.874-2.42-1.331C5.054 17.327 5 17.137 5 17" clip-rule="evenodd"></path>
     </svg>
-    
+   
 <!--Créditos ocultos (por si necesitas mostrar en otro lado)-->
 <div id="creditosDiv" style="display:none;">
   <h3><span id="creditosActuales">Cargando...</span></h3>
-</div>
+</div><span class="mensaje-clic">(¡Haceme clic!)</span>
   </button>
-
+ 
   <!-- Burbuja -->
   <div id="tooltip" class="tooltip">
     <div id="tooltipText">Cargando...</div>
-<p style="font-size: 16px; text-align: center; margin: 2px 0;">PRECIOS</p>
+<h2 style="font-size: 16px; text-align: center; margin: 2px 0;">PRECIOS</h2>
      <p style="font-size: 12px; text-align: center; margin: 2px 0;">1 crédito = 1 Turno</p>
-<p style="font-size: 14px; text-align: center; margin: 2px 0;">1 a 20 $170</p>
-<p style="font-size: 14px; text-align: center; margin: 2px 0;">21 a 50 $165</p>
-<p style="font-size: 14px; text-align: center; margin: 2px 0;">51 a 100 $150</p>
-<p style="font-size: 14px; text-align: center; margin: 2px 0;">101 a 200 $125</p>
-<p style="font-size: 14px; text-align: center; margin: 2px 0;">501 en adelante $90</p>
+<p style="font-size: 14px; text-align: center; margin: 2px 0;">1 a 100 $170</p>
+<p style="font-size: 14px; text-align: center; margin: 2px 0;">101 a 300 $165</p>
+<p style="font-size: 14px; text-align: center; margin: 2px 0;">+501 (Mayorista) $90</p>
 
 <button id="agregarCreditosBtn">Agregar créditos</button>
   </div>
@@ -858,8 +868,8 @@ input[type="date"]:focus {
 </section>
 
 
-     <section id="lista"> 
-<!-- Contenedor para botón Mostrar IDs con spinner propio -->
+    <!-- <section id="lista"> 
+
 <div style="text-align:center; margin: 20px 0;">
   <button id="btnMostrarIds" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
     Mostrar Lista Completa
@@ -868,10 +878,9 @@ input[type="date"]:focus {
     <i class="fas fa-spinner fa-spin"></i> Cargando, por favor esperá...
   </div>
 </div>
-     <!-- Aquí mostrarás los resultados únicos -->
-
+    
      <div id="resultadoIds"></div>
-  </section>
+  </section>-->
 
   </div>
 </div>
@@ -1364,7 +1373,7 @@ function fechaVacunaToString(fechaStr) {
         <label><i class="fas fa-comment"></i> Comentario</label>
         <input type="text" value="${turno.comentario}" disabled />
         
-        <label><i class="fas fa-id-badge"></i> ID Cliente</label>
+        <label><i class="fas fa-id-badge"></i> DNI</label>
         <input type="text" value="${turno.dniMascota}" disabled />
     </div>`;
 });
@@ -1728,6 +1737,26 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
 
   
 </script>
+  <script>
+document.getElementById("creditosBtn").addEventListener("click", function() {
+    let mensaje = this.querySelector(".mensaje-clic");
+    if (mensaje) {
+        mensaje.style.opacity = "0"; // animación suave
+        setTimeout(() => mensaje.remove(), 300); // quitar del DOM
+    }
+});
+    // Ocultamos el mensaje al inicio
+document.querySelector(".mensaje-clic").style.display = "none";
 
-   
+// Mostramos después de 5 segundos
+setTimeout(() => {
+    let mensaje = document.querySelector(".mensaje-clic");
+    if (mensaje) {
+        mensaje.style.display = "inline"; // o "block" si lo querés abajo
+        mensaje.style.opacity = "0";
+        mensaje.style.transition = "opacity 0.5s ease";
+        setTimeout(() => mensaje.style.opacity = "1", 50);
+    }
+}, 10000);
+  </script> 
 </body></html>
