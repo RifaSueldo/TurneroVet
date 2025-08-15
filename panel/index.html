@@ -1367,14 +1367,9 @@ function fechaVacunaToString(fechaStr) {
         <label><i class="fas fa-envelope"></i> Email</label>
         <input type="text" value="${turno.email}" disabled />
         
-        <label>
-  <a href="https://wa.me/549${turno.telefono}?text=Hola!%20Te%20escribo%20de%20${turno.nombre}%20no%20olvides%20que%20reservaste%20un%20turno%20a%20las%20${turno.turno}%20de%20hoy.%20Te%20esperamos!" target="_blank">
-    <i class="fa fa-whatsapp" style="color: #25D366; cursor: pointer;"></i>
-  </a> Teléfono
-</label>
-<input type="text" value="${turno.telefono}" disabled />
-
-        
+        <label><i class="fa fa-whatsapp"></i> Teléfono</label>
+        <input type="text" value="${turno.telefono}" disabled />
+   
         <label><i class="fas fa-comment"></i> Comentario</label>
         <input type="text" value="${turno.comentario}" disabled />
         
