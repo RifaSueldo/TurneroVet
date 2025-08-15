@@ -1762,22 +1762,23 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
 </script>
 
    <script>
-const tooltip = document.getElementById("creditosTooltip");
-const btn = document.getElementById("creditosBtn");
+document.addEventListener("DOMContentLoaded", () => {
+  const tooltip = document.getElementById("creditosTooltip");
+  const btn = document.getElementById("creditosBtn");
 
-if (!localStorage.getItem("tooltipMostrado")) {
-  setTimeout(() => {
-    tooltip.classList.add("show");
-    setTimeout(() => tooltip.classList.remove("show"), 5000); // desaparece después de 5s
-    localStorage.setItem("tooltipMostrado", "true");
-  }, 2000); // demora 2 segundos en aparecer
-}
+  // Mostrar solo si no se ha mostrado antes
+  if (!localStorage.getItem("tooltipMostrado")) {
+    setTimeout(() => {
+      tooltip.classList.add("show"); // aplica la clase que hace visible
+      localStorage.setItem("tooltipMostrado", "true");
+    }, 2000); // 2000ms = 2 segundos
+  }
 
-btn.addEventListener("click", () => {
-  tooltip.classList.remove("show");
+  // Ocultar tooltip al hacer clic en el botón
+  btn.addEventListener("click", () => {
+    tooltip.classList.remove("show");
+  });
 });
-
-
 </script>
 </body>
     
