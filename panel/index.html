@@ -59,9 +59,6 @@ html {
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   backdrop-filter: blur(6px);
 }
-#tooltip { display:none; position:absolute; ... }
-#tooltip.visible { display:block; }
-#creditosTooltip.show { display:block; }
 
 #inputBusquedaGeneral {
   background-color: #fff !important; /* color por defecto */
@@ -731,43 +728,6 @@ input[type="date"]:focus {
     font-weight: 600;
    font-family: 'Montserrat', sans-serif;
 }
-/* Tooltip burbuja para créditos */
-.tooltip-burbuja {
-  display: none;               /* inicialmente oculto */
-  position: absolute;          /* relativo al contenedor */
-  top: -50px;                  /* arriba del botón */
-  left: 50%;                   /* centrado horizontal */
-  transform: translateX(-50%);
-  background-color: #533482;   /* color morado */
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  z-index: 1000;
-  transition: opacity 0.3s ease;
-  opacity: 0;                  /* invisible antes de animar */
-}
-
-/* Cuando se muestre */
-.tooltip-burbuja.show {
-  display: block;
-  opacity: 1;
-}
-
-/* Pequeña flecha debajo de la burbuja */
-.tooltip-burbuja::after {
-  content: "";
-  position: absolute;
-  bottom: -6px;               /* justo debajo de la burbuja */
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 6px;
-  border-style: solid;
-  border-color: #533482 transparent transparent transparent;
-}
 
 
   </style>
@@ -834,10 +794,7 @@ input[type="date"]:focus {
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" aria-hidden="true">
       <path fill="currentColor" fill-rule="evenodd" d="M17.47 8.893C18.886 8.185 19 7.577 19 7.5s-.114-.685-1.53-1.393C16.173 5.459 14.242 5 12 5s-4.173.459-5.47 1.107C5.114 6.815 5 7.423 5 7.5s.114.685 1.53 1.393C7.827 9.541 9.758 10 12 10s4.173-.459 5.47-1.107M21 7.5c0 2.485-4.03 4.5-9 4.5S3 9.985 3 7.5 7.03 3 12 3s9 2.015 9 4.5m-17 4a1 1 0 0 1 1 1c0 .137.053.327.262.573.389.457 1.196.953 2.42 1.331 1.196.37 2.686.596 4.318.596s3.123-.226 4.319-.596c1.223-.378 2.03-.874 2.42-1.331.208-.246.261-.436.261-.573a1 1 0 1 1 2 0c0 .721-.3 1.354-.738 1.869-.743.873-1.967 1.517-3.352 1.946-1.412.437-3.105.685-4.91.685s-3.498-.248-4.91-.685c-1.385-.429-2.609-1.073-3.352-1.946C3.301 13.854 3 13.22 3 12.5a1 1 0 0 1 1-1M5 17a1 1 0 1 0-2 0c0 .721.3 1.354.738 1.869.743.873 1.967 1.517 3.352 1.946 1.412.437 3.105.685 4.91.685s3.498-.248 4.91-.685c1.385-.429 2.609-1.073 3.352-1.946.437-.515.738-1.148.738-1.869a1 1 0 1 0-2 0c0 .137-.053.327-.262.573-.389.457-1.196.953-2.42 1.331-1.196.37-2.686.596-4.318.596s-3.122-.226-4.319-.596c-1.223-.378-2.03-.874-2.42-1.331C5.054 17.327 5 17.137 5 17" clip-rule="evenodd"></path>
     </svg>
-     <!-- Burbuja -->
-  <div id="creditosTooltip" class="tooltip-burbuja">
-    💡 Hace clic aquí para ver los precios y agregar créditos
-  </div>
+    
 <!--Créditos ocultos (por si necesitas mostrar en otro lado)-->
 <div id="creditosDiv" style="display:none;">
   <h3><span id="creditosActuales">Cargando...</span></h3>
@@ -1762,23 +1719,5 @@ document.getElementById("btnMostrarIds").addEventListener("click", () => {
   
 </script>
 
-   <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const tooltip = document.getElementById("creditosTooltip");
-  const btn = document.getElementById("creditosBtn");
-
-  // Mostrar solo si no se ha mostrado antes
-  if (!localStorage.getItem("tooltipMostrado")) {
-    setTimeout(() => {
-      tooltip.classList.add("show"); // aplica la clase que hace visible
-      localStorage.setItem("tooltipMostrado", "true");
-    }, 2000); // 2000ms = 2 segundos
-  }
-
-  // Ocultar tooltip al hacer clic en el botón
-  btn.addEventListener("click", () => {
-    tooltip.classList.remove("show");
-  });
-});
-</script>
+   
 </body></html>
