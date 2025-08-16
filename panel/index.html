@@ -773,6 +773,7 @@ input[type="date"]:focus {
   <!-- Menú de enlaces -->
   <nav class="navbar-menu" id="navbarMenu">
     <a href="#turnos" class="nav-link">Turnos</a>
+     <button id="agregarCreditosBtn2">Comenzar</button>
      <!--<a href="#lista" class="nav-link">Lista Completa</a>-->
     
      
@@ -1654,7 +1655,18 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarCreditos();
 });
 </script>
+    <script>
+document.getElementById("agregarCreditosBtn2").addEventListener("click", () => {
+  const numero = "5493434477577";
 
+  // Leer usuario guardado en sessionStorage
+  const usuario = sessionStorage.getItem("usuario") || "Usuario";
+
+  const mensaje = encodeURIComponent(`Hola, soy ${usuario} y quiero mi plataforma.`);
+  const url = `https://wa.me/${numero}?text=${mensaje}`;
+  window.open(url, "_blank");
+});
+   </script>
   <script>
   const toggleBtn = document.getElementById('navbarToggle');
   const menu = document.getElementById('navbarMenu');
