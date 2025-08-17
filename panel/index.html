@@ -794,29 +794,7 @@ input[type="date"]:focus {
     <input type="text" id="usuario" placeholder="Usuario" />
     <input type="password" id="clave" style="text-align: center;" placeholder="Clave" />
    <button id="btnLogin" onclick="login()">Ingresar</button>
-<!-- Botón flotante -->
 
-<div id="boton-charla">
-  <span class="texto-animado"><i class="fas fa-comment-dots"></i> Ianna Está Disponible</span>
-</div>
-<!-- Modal pantalla completa -->
-<div id="modal-charla">
-  <div id="cerrar-charla" style="font-size: 16px; right: 40px;">Volver</div>
-  <iframe src="https://banderax.netlify.app/" frameborder="0" style="width: 100%; height: 100%; border: none; margin-bottom: 50px;"></iframe>
-</div>
-<script>
-  const botonCharla = document.getElementById('boton-charla');
-  const modalCharla = document.getElementById('modal-charla');
-  const cerrarCharla = document.getElementById('cerrar-charla');
-
-  botonCharla.addEventListener('click', () => {
-    modalCharla.style.display = 'flex';
-  });
-
-  cerrarCharla.addEventListener('click', () => {
-    modalCharla.style.display = 'none';
-  });
-</script>
      <div style="display:flex; align-items:center; gap:6px; font-family:'Montserrat', sans-serif; padding:10px 15px; margin:20px 0; border:1px solid #ccc; border-radius:8px;">
   
   <i class="fas fa-phone" aria-hidden="true"></i>
@@ -1830,5 +1808,27 @@ setTimeout(() => {
 }, 10000);
   </script> 
 
+<!-- Botón flotante -->
 
+<div id="boton-charla">
+  <span class="texto-animado"><i class="fas fa-comment-dots"></i> Ianna Está Disponible</span>
+</div>
+<!-- Modal pantalla completa -->
+<div id="modal-charla">
+  <div id="cerrar-charla" style="font-size: 16px; right: 40px;">Volver</div>
+  <iframe src="https://banderax.netlify.app/" frameborder="0" style="width: 100%; height: 100%; border: none; margin-bottom: 50px;"></iframe>
+</div>
+<script>
+  const botonCharla = document.getElementById('boton-charla');
+  const modalCharla = document.getElementById('modal-charla');
+  const cerrarCharla = document.getElementById('cerrar-charla');
+
+  botonCharla.addEventListener('click', () => {
+    modalCharla.style.display = 'flex';
+  });
+
+  cerrarCharla.addEventListener('click', () => {
+    modalCharla.style.display = 'none';
+  });
+</script>
 </body></html>
