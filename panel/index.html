@@ -881,18 +881,17 @@ input[type="date"]:focus {
     <input type="text" id="usuario" placeholder="Usuario" />
     <input type="password" id="clave" style="text-align: center;" placeholder="Clave" />
    <button id="btnLogin" onclick="login()">Ingresar</button>
-
-     <div>
-  
+  <div style="margin:10px;">
   <!-- Número clickeable -->
   <a 
     href="https://wa.me/549${turno.telefono}?text=${encodeURIComponent(`Hola Turnox!`)}" 
     target="_blank" 
     style="text-decoration:none; margin-left:auto;"
   >
-    <span style="font-size:16px; color:#533482;"><i class="fas fa-phone" aria-hidden="true"></i> Contacto con Turnox</span>
+    <span style="font-size:14px; color:#533482;"><i class="fas fa-phone" aria-hidden="true"></i> Contacto con Turnox</span>
   </a>
 </div>
+   
     <div id="cargandoLogin" style="text-align: center; display: none;">
     <i class="fas fa-spinner fa-spin"></i> Validando Usuario...
   </div> 
