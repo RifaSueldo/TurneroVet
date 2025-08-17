@@ -72,6 +72,8 @@ html {
      #inputBusquedaGeneral:not(:placeholder-shown) {
   background-color: #EDEDED !important; /* por ejemplo, verde suave */
 }
+
+     
     .container {
       margin: 20px auto;
       max-width: 900px;
@@ -749,7 +751,92 @@ input[type="date"]:focus {
     0% { opacity: 1; }
     100% { opacity: 0.3; }
 }
+/* Modal de charla */
+#boton-charla {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background: #000000;
+  color: #eee;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 9999;
+  overflow: hidden;
+  text-align: left;
+}
 
+    
+    
+.texto-animado {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: deslizarTexto 6s ease-in-out infinite;
+}
+
+@keyframes deslizarTexto {
+  0% {
+    transform: translateX(0%);
+  }
+
+  40% {
+    transform: translateX(-50%);
+  }
+
+  60% {
+    transform: translateX(-50%); /* Pausa 1 segundo en el medio */
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+
+
+#boton-charla:hover {
+  background: #ccc;
+  color: #000;
+}
+
+#modal-charla {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  flex-direction: column;
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+}
+
+#modal-charla iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+#cerrar-charla {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #eee;
+  z-index: 10001;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .compra {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   </style>
 
 </head>
