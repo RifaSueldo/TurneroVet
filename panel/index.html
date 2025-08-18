@@ -877,7 +877,8 @@ input[type="date"]:focus {
  
   
   <div class="container">
-    <p>Ingresá usuario y clave para continuar:</p>
+    <p>Si aún no tenes Usuario y clave pedilo sin cargo por WhatsApp:</p>
+     <p>Ingresá usuario y clave para continuar:</p>
     <input type="text" id="usuario" placeholder="Usuario" />
     <input type="password" id="clave" style="text-align: center;" placeholder="Clave" />
    <button id="btnLogin" onclick="login()">Ingresar</button>
@@ -932,11 +933,12 @@ input[type="date"]:focus {
   <!-- Burbuja -->
   <div id="tooltip" class="tooltip">
     <div id="tooltipText">Cargando...</div>
-<h2 style="font-size: 16px; text-align: center; margin: 2px 0;">PRECIOS</h2>
+     <p style="font-size: 12px; text-align: center; margin: 2px 0;">Tu Plan es:</p>
+<h2 style="font-size: 16px; text-align: center; margin: 2px 0;">Plan PRE-PAGO</h2>
      <p style="font-size: 12px; text-align: center; margin: 2px 0;">1 crédito = 1 Turno</p>
 <p style="font-size: 14px; text-align: center; margin: 2px 0;">1 a 100 $170</p>
 <p style="font-size: 14px; text-align: center; margin: 2px 0;">101 a 300 $165</p>
-<p style="font-size: 14px; text-align: center; margin: 2px 0;">+501 (Mayorista) $90</p>
+
 
 <button id="agregarCreditosBtn">Agregar créditos</button>
   </div>
@@ -1497,7 +1499,7 @@ function fechaVacunaToString(fechaStr) {
 
   <!-- Número clickeable -->
   <a 
-    href="https://wa.me/549${turno.telefono}?text=${encodeURIComponent(`Hola! Te escribo de ${turno.nombre}, recordá que reservaste un turno a las ${formatearHora(turno.turno)} de hoy. Te esperamos! (Texto editable) es sólo un ejemplo`)}" 
+    href="https://wa.me/549${turno.telefono}?text=${encodeURIComponent(`Hola! Te escribo de ${turno.nombre}, recordá que reservaste un turno el ${formatearDiaMes(turno.turno)} a las ${formatearHora(turno.turno)} . Te esperamos! `)}" 
     target="_blank" 
     style="text-decoration:none; margin-left:auto;"
   >
