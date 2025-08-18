@@ -1221,7 +1221,13 @@ contenedorTurnos.appendChild(btn);
     console.log("Loader ocultado");
   }
 
-  document.addEventListener("DOMContentLoaded", renderizarCalendario);
+  document.addEventListener("DOMContentLoaded", () => {
+  renderizarCalendario();
+
+  // 👇 Selecciona automáticamente el día de hoy
+  const hoy = new Date();
+  seleccionarDia(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+});
 </script>
 
   <script>
