@@ -977,7 +977,7 @@ section.visible {
     const hoy = new Date(); hoy.setHours(0,0,0,0);
     for(let i=1; i <= diasMes; i++){
       const dia = new Date(año, mes, i);
-      const clase = dia < hoy ? "dia disabled" : "dia";
+      let clase = dia < hoy ? "dia disabled" : "dia"
 
       // ✅ marcar el día actual
   if (dia.getTime() === hoy.getTime()) {
