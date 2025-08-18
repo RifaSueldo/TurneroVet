@@ -1430,6 +1430,19 @@ function buscarDni() {
     burbuja.classList.remove("visible");
   }, 20000);
 </script>
+<script>
+  flatpickr("#fechaTurno", {
+    inline: true,           // calendario siempre visible
+    dateFormat: "Y-m-d",    // formato para enviar
+    locale: "es",           // idioma español
+    defaultDate: "today",   // fecha por defecto: hoy
+    onChange: function(selectedDates, dateStr, instance) {
+      // Llama a buscarPorFecha automáticamente al seleccionar fecha
+      buscarPorFecha(dateStr);
+    }
+  });
 
+  
+</script>
 </body>
 </html>
